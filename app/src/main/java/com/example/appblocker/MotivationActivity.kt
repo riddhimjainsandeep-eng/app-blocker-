@@ -12,7 +12,14 @@ class MotivationActivity : AppCompatActivity() {
 
         val btnBackToStudy = findViewById<Button>(R.id.btnBackToStudy)
         btnBackToStudy.setOnClickListener {
-            // Close the app/activity
+            // 1. Go to Home Screen
+            val homeIntent = Intent(Intent.ACTION_MAIN).apply {
+                addCategory(Intent.CATEGORY_HOME)
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            }
+            startActivity(homeIntent)
+            
+            // 2. Close the activity
             finish()
         }
     }

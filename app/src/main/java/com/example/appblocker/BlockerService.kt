@@ -30,19 +30,23 @@ class BlockerService : AccessibilityService() {
     private val handler = Handler(Looper.getMainLooper())
     private var blockRunnable: Runnable? = null
     private var currentUrl = ""
+    private var isCooldownActive = false
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
 
         val packageName = event.packageName?.toString() ?: return
 
-        // 1. Block specific apps instantly
+        // 1. Check Cooldown - don't block if we just exited the wall
+        if (isCooldownActive) return
+
+        // 2. Block specific apps instantly
         if (blockedApps.contains(packageName)) {
             launchMotivationScreen()
             return
         }
 
-        // 2. Perform Deep Scan for Blocked Keywords in UI
+        // 3. Perform Deep Scan for Blocked Keywords in UI
         val rootNode = rootInActiveWindow ?: return
         if (scanNodesForKeywords(rootNode)) {
             launchMotivationScreen()
@@ -122,11 +126,20 @@ class BlockerService : AccessibilityService() {
     }
 
     private fun launchMotivationScreen() {
+        if (isCooldownActive) return
+        
+        isCooldownActive = true
+        
         val intent = Intent(this, MotivationActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
         startActivity(intent)
+
+        // Reset cooldown after 2 seconds
+        handler.postDelayed({
+            isCooldownActive = false
+        }, 2000)
     }
 
     override fun onInterrupt() {
