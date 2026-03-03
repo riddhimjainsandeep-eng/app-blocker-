@@ -33,29 +33,44 @@ class BlockerService : AccessibilityService() {
     private var isCooldownActive = false
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        if (event == null) return
+        // 1. Only process window state changes (switching apps/windows)
+        if (event == null || event.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
 
         val packageName = event.packageName?.toString() ?: return
 
-        // 1. Check Cooldown - don't block if we just exited the wall
+        // 2. Self-Exemption: Never block the blocker itself or system settings
+        if (packageName == "com.example.appblocker" || packageName == "com.android.settings") {
+            return
+        }
+
+        // 3. Check Cooldown - don't block if we just exited the wall
         if (isCooldownActive) return
 
-        // 2. Block specific apps instantly
+        // 4. Block specific apps instantly
         if (blockedApps.contains(packageName)) {
             launchMotivationScreen()
             return
         }
 
-        // 3. Perform Deep Scan for Blocked Keywords in UI
-        val rootNode = rootInActiveWindow ?: return
-        if (scanNodesForKeywords(rootNode)) {
-            launchMotivationScreen()
-            return
-        }
+        // 5. Targeted Scanning: Only scan for keywords in browsers or social apps
+        val scannerTargetApps = setOf(
+            "com.android.chrome", "com.brave.browser", "org.mozilla.firefox", 
+            "com.sec.android.app.sbrowser", "com.instagram.android", 
+            "com.facebook.katana", "com.google.android.youtube"
+        )
 
-        // 3. Block specific websites in Google Chrome with a 3-second delay
-        if (packageName == "com.android.chrome") {
-            val urlNodes = rootNode.findAccessibilityNodeInfosByViewId("com.android.chrome:id/url_bar")
+        if (scannerTargetApps.contains(packageName)) {
+            val rootNode = rootInActiveWindow ?: return
+            
+            // Perform Deep Scan for text/keywords
+            if (scanNodesForKeywords(rootNode)) {
+                launchMotivationScreen()
+                return
+            }
+
+            // 6. Specific Website Check for Chrome with delay
+            if (packageName == "com.android.chrome") {
+                val urlNodes = rootNode.findAccessibilityNodeInfosByViewId("com.android.chrome:id/url_bar")
             
             if (urlNodes != null && urlNodes.isNotEmpty()) {
                 val urlBarNode = urlNodes[0]
