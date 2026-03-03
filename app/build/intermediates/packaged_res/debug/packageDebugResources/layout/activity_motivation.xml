@@ -30,7 +30,7 @@
         android:id="@+id/btnBackToStudy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back to Study"
+        android:text="I understand. Take me back to my studies."
         android:paddingHorizontal="32dp"
         android:paddingVertical="12dp"
         android:backgroundTint="#FFFFFF"
