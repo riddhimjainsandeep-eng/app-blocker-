@@ -6,113 +6,102 @@ import android.os.Handler
 import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import android.widget.Toast
 
 class BlockerService : AccessibilityService() {
 
+    // --- Apps to block outright when they become the foreground window ---
     private val blockedApps = setOf(
         "com.instagram.android",
         "com.facebook.katana",
-        "com.zhiliaoapp.musically", // TikTok
-        "com.google.android.youtube"
+        "com.zhiliaoapp.musically",   // TikTok
+        "com.twitter.android",
+        "com.snapchat.android"
     )
 
+    // --- Websites to block when detected in Chrome's URL bar ---
     private val blockedWebsites = listOf(
         "instagram.com",
         "facebook.com",
-        "youtube.com/shorts"
+        "youtube.com/shorts",
+        "tiktok.com",
+        "twitter.com",
+        "snapchat.com"
     )
 
+    // --- Keywords to scan for in browser content ---
     private val blockedKeywords = setOf(
-        "reels", "shorts", "explore", "trending", "feed", "story", "foryou", "discover", "porn", "pornhub", "xhamster", "xnxx", "xvideos", "hentai", "erotica", "nude", "naked", "sex", "xxx", "bikini", "lingerie", "underwear", "model", "hot", "leak", "onlyfans", "nsfw", "uncensored", "adult", "cam", "sensual", "incognito", "proxy", "vpn", "unblock", "bypass", "mirror", "private browsing", "foryou", "discover"
+        "reels", "shorts", "explore", "trending", "foryou", "story",
+        "porn", "pornhub", "xxx", "onlyfans", "nsfw", "adult", "nude",
+        "bypass", "vpn", "proxy", "unblock", "mirror"
+    )
+
+    // --- Browsers that should be scanned for keywords/URLs ---
+    private val targetBrowsers = setOf(
+        "com.android.chrome",
+        "com.brave.browser",
+        "org.mozilla.firefox",
+        "com.sec.android.app.sbrowser"
     )
 
     private val handler = Handler(Looper.getMainLooper())
-    private var blockRunnable: Runnable? = null
-    private var currentUrl = ""
     private var isCooldownActive = false
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
-        // 1. Only process window state changes (switching apps/windows)
-        if (event == null || event.eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
+        if (event == null) return
+
+        // STATE VERIFICATION: Trigger on BOTH window switches AND content changes
+        // (typing, scrolling, tab switches within an app)
+        val eventType = event.eventType
+        if (eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
+            eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+        ) return
 
         val packageName = event.packageName?.toString() ?: return
 
-        // 2. Self-Exemption: Never block the blocker itself or system settings
-        if (packageName == "com.example.appblocker" || packageName == "com.android.settings") {
-            return
-        }
+        // EARLY EXIT: Never block our own app or system settings
+        if (packageName == "com.example.appblocker" ||
+            packageName == "com.android.settings" ||
+            packageName == "com.android.systemui"
+        ) return
 
-        // 3. Check Cooldown - don't block if we just exited the wall
+        // COOLDOWN CHECK: Prevent re-trigger right after the user exits the wall
         if (isCooldownActive) return
 
-        // 4. Block specific apps instantly
+        // RULE 1: Block social media apps outright the moment they appear
         if (blockedApps.contains(packageName)) {
             launchMotivationScreen()
             return
         }
 
-        // 5. Targeted Scanning: Only scan for keywords in browsers or social apps
-        val scannerTargetApps = setOf(
-            "com.android.chrome", "com.brave.browser", "org.mozilla.firefox", 
-            "com.sec.android.app.sbrowser", "com.instagram.android", 
-            "com.facebook.katana", "com.google.android.youtube"
-        )
-
-        if (scannerTargetApps.contains(packageName)) {
+        // RULE 2: For browsers, perform a deep scan for blocked URLs and keywords
+        if (targetBrowsers.contains(packageName)) {
             val rootNode = rootInActiveWindow ?: return
-            
-            // Perform Deep Scan for text/keywords
-            if (scanNodesForKeywords(rootNode)) {
+
+            // CHROME URL FORCE-CHECK: Check the URL bar directly every time
+            if (packageName == "com.android.chrome") {
+                val urlBarNodes = rootNode.findAccessibilityNodeInfosByViewId(
+                    "com.android.chrome:id/url_bar"
+                )
+                if (urlBarNodes != null && urlBarNodes.isNotEmpty()) {
+                    val url = urlBarNodes[0].text?.toString()?.lowercase() ?: ""
+                    val isBlockedSite = blockedWebsites.any { url.contains(it) }
+                    if (isBlockedSite) {
+                        launchMotivationScreen()
+                        return
+                    }
+                }
+            }
+
+            // KEYWORD DEEP SCAN: Scan all visible UI nodes for blocked words
+            if (scanNodeForKeywords(rootNode)) {
                 launchMotivationScreen()
                 return
             }
-
-            // 6. Specific Website Check for Chrome with delay
-            if (packageName == "com.android.chrome") {
-                val urlNodes = rootNode.findAccessibilityNodeInfosByViewId("com.android.chrome:id/url_bar")
-            
-            if (urlNodes != null && urlNodes.isNotEmpty()) {
-                val urlBarNode = urlNodes[0]
-                currentUrl = urlBarNode.text?.toString() ?: ""
-                
-                val isCurrentlyBlocked = blockedWebsites.any { currentUrl.contains(it, ignoreCase = true) }
-                
-                if (isCurrentlyBlocked) {
-                    if (blockRunnable == null) {
-                        var countdown = 3
-                        blockRunnable = object : Runnable {
-                            override fun run() {
-                                // Re-check the URL to see if the user switched tabs
-                                val stillBlocked = blockedWebsites.any { currentUrl.contains(it, ignoreCase = true) }
-                                if (!stillBlocked) {
-                                    cancelWarning()
-                                    return
-                                }
-                                
-                                if (countdown > 0) {
-                                    Toast.makeText(this@BlockerService, "Blocked site detected! You have 3 seconds to switch tabs or close it.", Toast.LENGTH_SHORT).show()
-                                    countdown--
-                                    handler.postDelayed(this, 1000)
-                                } else {
-                                    launchMotivationScreen()
-                                    cancelWarning()
-                                }
-                            }
-                        }
-                        handler.post(blockRunnable!!)
-                    }
-                } else {
-                    // Safe site -> cancel any pending blocks
-                    cancelWarning()
-                }
-            }
         }
     }
-}
 
-    private fun scanNodesForKeywords(node: AccessibilityNodeInfo): Boolean {
-        // Check text
+    // Recursive function: scans every node in the UI tree for a blocked keyword
+    private fun scanNodeForKeywords(node: AccessibilityNodeInfo): Boolean {
         val text = node.text?.toString()?.lowercase() ?: ""
         val contentDesc = node.contentDescription?.toString()?.lowercase() ?: ""
 
@@ -122,42 +111,33 @@ class BlockerService : AccessibilityService() {
             }
         }
 
-        // Recursively check children
         for (i in 0 until node.childCount) {
-            val child = node.getChild(i)
-            if (child != null) {
-                if (scanNodesForKeywords(child)) {
-                    child.recycle() // Important for memory
-                    return true
-                }
+            val child = node.getChild(i) ?: continue
+            if (scanNodeForKeywords(child)) {
                 child.recycle()
+                return true
             }
+            child.recycle()
         }
         return false
     }
 
-    private fun cancelWarning() {
-        blockRunnable?.let { handler.removeCallbacks(it) }
-        blockRunnable = null
-    }
-
+    // Launches the Motivation Wall with a 3-second cooldown to prevent re-loops
     private fun launchMotivationScreen() {
         if (isCooldownActive) return
-        
         isCooldownActive = true
-        
+
         val intent = Intent(this, MotivationActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
         startActivity(intent)
 
-        // Reset cooldown after 2 seconds
+        // Reset cooldown after 3 seconds — enough time to leave the blocked app
         handler.postDelayed({
             isCooldownActive = false
-        }, 2000)
+        }, 3000)
     }
 
-    override fun onInterrupt() {
-    }
+    override fun onInterrupt() {}
 }
