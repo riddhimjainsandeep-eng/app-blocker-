@@ -12,7 +12,8 @@ class BlockerService : AccessibilityService() {
     private val blockedApps = setOf(
         "com.instagram.android",
         "com.facebook.katana",
-        "com.zhiliaoapp.musically" // TikTok
+        "com.zhiliaoapp.musically", // TikTok
+        "com.google.android.youtube"
     )
 
     private val blockedWebsites = listOf(
