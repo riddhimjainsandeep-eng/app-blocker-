@@ -1,6 +1,8 @@
 package com.example.appblocker
 
 import android.accessibilityservice.AccessibilityService
+import android.os.Handler
+import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
@@ -9,7 +11,8 @@ class BlockerService : AccessibilityService() {
 
     private val blockedApps = setOf(
         "com.instagram.android",
-        "com.facebook.katana"
+        "com.facebook.katana",
+        "com.zhiliaoapp.musically" // TikTok
     )
 
     private val blockedWebsites = listOf(
@@ -18,34 +21,67 @@ class BlockerService : AccessibilityService() {
         "youtube.com/shorts"
     )
 
+    private val handler = Handler(Looper.getMainLooper())
+    private var blockRunnable: Runnable? = null
+    private var currentUrl = ""
+
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
         if (event == null) return
 
         val packageName = event.packageName?.toString() ?: return
 
-        // 1. Block specific apps
+        // 1. Block specific apps instantly
         if (blockedApps.contains(packageName)) {
             blockAndToast()
             return
         }
 
-        // 2. Block specific websites in Google Chrome
+        // 2. Block specific websites in Google Chrome with a 3-second delay
         if (packageName == "com.android.chrome") {
             val rootNode = rootInActiveWindow ?: return
             val urlNodes = rootNode.findAccessibilityNodeInfosByViewId("com.android.chrome:id/url_bar")
             
             if (urlNodes != null && urlNodes.isNotEmpty()) {
                 val urlBarNode = urlNodes[0]
-                val urlText = urlBarNode.text?.toString() ?: ""
+                currentUrl = urlBarNode.text?.toString() ?: ""
                 
-                for (blockedUrl in blockedWebsites) {
-                    if (urlText.contains(blockedUrl, ignoreCase = true)) {
-                        blockAndToast()
-                        break
+                val isCurrentlyBlocked = blockedWebsites.any { currentUrl.contains(it, ignoreCase = true) }
+                
+                if (isCurrentlyBlocked) {
+                    if (blockRunnable == null) {
+                        var countdown = 3
+                        blockRunnable = object : Runnable {
+                            override fun run() {
+                                // Re-check the URL to see if the user switched tabs
+                                val stillBlocked = blockedWebsites.any { currentUrl.contains(it, ignoreCase = true) }
+                                if (!stillBlocked) {
+                                    cancelWarning()
+                                    return
+                                }
+                                
+                                if (countdown > 0) {
+                                    Toast.makeText(this@BlockerService, "Blocked site detected! You have 3 seconds to switch tabs or close it.", Toast.LENGTH_SHORT).show()
+                                    countdown--
+                                    handler.postDelayed(this, 1000)
+                                } else {
+                                    blockAndToast()
+                                    cancelWarning()
+                                }
+                            }
+                        }
+                        handler.post(blockRunnable!!)
                     }
+                } else {
+                    // Safe site -> cancel any pending blocks
+                    cancelWarning()
                 }
             }
         }
+    }
+
+    private fun cancelWarning() {
+        blockRunnable?.let { handler.removeCallbacks(it) }
+        blockRunnable = null
     }
 
     private fun blockAndToast() {

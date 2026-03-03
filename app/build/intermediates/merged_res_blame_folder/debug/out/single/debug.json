@@ -1,0 +1,6 @@
+[
+    {
+        "merged": "com.example.appblocker.app-merged_res-31:/xml_accessibility_service_config.xml.flat",
+        "source": "com.example.appblocker.app-main-33:/xml/accessibility_service_config.xml"
+    }
+]
