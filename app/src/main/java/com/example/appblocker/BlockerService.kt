@@ -24,7 +24,7 @@ class BlockerService : AccessibilityService() {
     )
 
     private val blockedKeywords = setOf(
-        "reels", "shorts", "explore", "trending", "feed", "story"
+        "reels", "shorts", "explore", "trending", "feed", "story", "foryou", "discover", "porn", "pornhub", "xhamster", "xnxx", "xvideos", "hentai", "erotica", "nude", "naked", "sex", "xxx", "bikini", "lingerie", "underwear", "model", "hot", "leak", "onlyfans", "nsfw", "uncensored", "adult", "cam", "sensual", "incognito", "proxy", "vpn", "unblock", "bypass", "mirror", "private browsing", "foryou", "discover"
     )
 
     private val handler = Handler(Looper.getMainLooper())
