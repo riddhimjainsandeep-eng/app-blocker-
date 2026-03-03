@@ -1,11 +1,11 @@
 package com.example.appblocker
 
 import android.accessibilityservice.AccessibilityService
+import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
-import android.widget.Toast
 
 class BlockerService : AccessibilityService() {
 
@@ -33,7 +33,7 @@ class BlockerService : AccessibilityService() {
 
         // 1. Block specific apps instantly
         if (blockedApps.contains(packageName)) {
-            blockAndToast()
+            launchMotivationScreen()
             return
         }
 
@@ -65,7 +65,7 @@ class BlockerService : AccessibilityService() {
                                     countdown--
                                     handler.postDelayed(this, 1000)
                                 } else {
-                                    blockAndToast()
+                                    launchMotivationScreen()
                                     cancelWarning()
                                 }
                             }
@@ -85,9 +85,12 @@ class BlockerService : AccessibilityService() {
         blockRunnable = null
     }
 
-    private fun blockAndToast() {
-        Toast.makeText(this, "Sorry, CA and ISC exams are your priority right now.", Toast.LENGTH_LONG).show()
-        performGlobalAction(GLOBAL_ACTION_HOME)
+    private fun launchMotivationScreen() {
+        val intent = Intent(this, MotivationActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        }
+        startActivity(intent)
     }
 
     override fun onInterrupt() {

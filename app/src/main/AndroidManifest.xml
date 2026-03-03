@@ -15,6 +15,11 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".MotivationActivity"
+            android:exported="false"
+            android:launchMode="singleTask" />
+
         <service
             android:name=".BlockerService"
             android:label="@string/app_name"
