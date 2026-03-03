@@ -109,6 +109,7 @@ class BlockerService : AccessibilityService() {
             }
         }
     }
+}
 
     private fun scanNodesForKeywords(node: AccessibilityNodeInfo): Boolean {
         // Check text
