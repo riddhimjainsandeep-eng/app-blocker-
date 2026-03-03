@@ -24,14 +24,7 @@
         android:gravity="center"
         android:layout_marginBottom="16dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="The MacBook Pro is waiting for you in May. Don't trade your future for a 15-second story."
-        android:textColor="#BBDEFB"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:layout_marginBottom="48dp"/>
+
 
     <Button
         android:id="@+id/btnBackToStudy"

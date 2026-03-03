@@ -23,6 +23,10 @@ class BlockerService : AccessibilityService() {
         "youtube.com/shorts"
     )
 
+    private val blockedKeywords = setOf(
+        "reels", "shorts", "explore", "trending", "feed", "story"
+    )
+
     private val handler = Handler(Looper.getMainLooper())
     private var blockRunnable: Runnable? = null
     private var currentUrl = ""
@@ -38,9 +42,15 @@ class BlockerService : AccessibilityService() {
             return
         }
 
-        // 2. Block specific websites in Google Chrome with a 3-second delay
+        // 2. Perform Deep Scan for Blocked Keywords in UI
+        val rootNode = rootInActiveWindow ?: return
+        if (scanNodesForKeywords(rootNode)) {
+            launchMotivationScreen()
+            return
+        }
+
+        // 3. Block specific websites in Google Chrome with a 3-second delay
         if (packageName == "com.android.chrome") {
-            val rootNode = rootInActiveWindow ?: return
             val urlNodes = rootNode.findAccessibilityNodeInfosByViewId("com.android.chrome:id/url_bar")
             
             if (urlNodes != null && urlNodes.isNotEmpty()) {
@@ -79,6 +89,31 @@ class BlockerService : AccessibilityService() {
                 }
             }
         }
+    }
+
+    private fun scanNodesForKeywords(node: AccessibilityNodeInfo): Boolean {
+        // Check text
+        val text = node.text?.toString()?.lowercase() ?: ""
+        val contentDesc = node.contentDescription?.toString()?.lowercase() ?: ""
+
+        for (keyword in blockedKeywords) {
+            if (text.contains(keyword) || contentDesc.contains(keyword)) {
+                return true
+            }
+        }
+
+        // Recursively check children
+        for (i in 0 until node.childCount) {
+            val child = node.getChild(i)
+            if (child != null) {
+                if (scanNodesForKeywords(child)) {
+                    child.recycle() // Important for memory
+                    return true
+                }
+                child.recycle()
+            }
+        }
+        return false
     }
 
     private fun cancelWarning() {

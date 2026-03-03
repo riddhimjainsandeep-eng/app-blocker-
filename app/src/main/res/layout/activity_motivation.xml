@@ -17,12 +17,12 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Focus, Riddhim. Your CA Foundation and ISC Board exams are the only things that matter right now."
+        android:text="Is this worth your future?"
         android:textColor="#FFFFFF"
-        android:textSize="24sp"
+        android:textSize="32sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_marginBottom="16dp"/>
+        android:layout_marginBottom="32dp"/>
 
 
 
