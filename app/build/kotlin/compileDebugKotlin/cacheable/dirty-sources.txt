@@ -1,3 +1,0 @@
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\BlockerService.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\MotivationActivity.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\MainActivity.kt
