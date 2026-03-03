@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.example.appblocker.app-debug-31:/xml_accessibility_service_config.xml.flat",
+        "source": "com.example.appblocker.app-main-33:/xml/accessibility_service_config.xml"
+    },
+    {
+        "merged": "com.example.appblocker.app-debug-31:/layout_activity_motivation.xml.flat",
+        "source": "com.example.appblocker.app-main-33:/layout/activity_motivation.xml"
+    }
+]
