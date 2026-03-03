@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-33:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-33:12
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-38:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-38:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-3\184958b59b0b0fbc0694ac3308e227ed\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\riddh\.gradle\caches\transforms-3\af7216361ca839e24eaca4905b35b800\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-3\61900cb96ffc2bd496f96a7279063865\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
@@ -54,8 +54,8 @@ MERGED from [androidx.print:print:1.0.0] C:\Users\riddh\.gradle\caches\transform
 	xmlns:android
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:11-69
 application
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:4:5-31:19
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:4:5-31:19
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:4:5-36:19
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:4:5-36:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-3\184958b59b0b0fbc0694ac3308e227ed\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-3\184958b59b0b0fbc0694ac3308e227ed\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-3\61900cb96ffc2bd496f96a7279063865\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -98,28 +98,36 @@ category#android.intent.category.LAUNCHER
 ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:14:17-77
 	android:name
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:14:27-74
-service#com.example.appblocker.BlockerService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:18:9-29:19
-	android:label
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:13-45
+activity#com.example.appblocker.MotivationActivity
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:18:9-21:47
+	android:launchMode
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:13-44
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:22:13-37
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:13-37
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:13-47
+service#com.example.appblocker.BlockerService
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:23:9-34:19
+	android:label
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:25:13-45
+	android:exported
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:27:13-37
 	android:permission
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:13-79
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:26:13-79
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:13-43
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:24:13-43
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:23:13-25:29
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:28:13-30:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:24:17-92
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:29:17-92
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:24:25-89
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:29:25-89
 meta-data#android.accessibilityservice
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:26:13-28:72
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:31:13-33:72
 	android:resource
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:28:17-69
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:33:17-69
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:27:17-60
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:32:17-60
 uses-sdk
 INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml
