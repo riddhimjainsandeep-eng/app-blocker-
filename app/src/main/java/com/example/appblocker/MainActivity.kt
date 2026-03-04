@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.text.InputType
@@ -13,6 +14,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import java.text.SimpleDateFormat
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +26,9 @@ class MainActivity : AppCompatActivity() {
         const val KEY_KEYWORDS = "blocked_keywords"
         const val KEY_INITIALIZED = "is_initialized"
 
-        // Default presets — installed on first launch
+        private const val STATS_PREFS = "BlockerStats"
+        private const val REPORT_EMAIL = "riddhimjainsandeep@gmail.com"
+
         val DEFAULT_APPS = setOf(
             "com.instagram.android",
             "com.facebook.katana",
@@ -33,12 +38,8 @@ class MainActivity : AppCompatActivity() {
             "com.snapchat.android"
         )
         val DEFAULT_WEBSITES = setOf(
-            "instagram.com",
-            "facebook.com",
-            "youtube.com/shorts",
-            "tiktok.com",
-            "twitter.com",
-            "snapchat.com"
+            "instagram.com", "facebook.com", "youtube.com/shorts",
+            "tiktok.com", "twitter.com", "snapchat.com"
         )
         val DEFAULT_KEYWORDS = setOf(
             "reels", "shorts", "foryou", "explore", "trending",
@@ -50,49 +51,33 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Seed defaults on very first launch
         seedDefaultsIfNeeded()
 
-        // Wire up buttons
         findViewById<Button>(R.id.btnEnableService).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
 
-        // App button → opens the installed App Picker
-        findViewById<Button>(R.id.btnAddApp).setOnClickListener {
-            showAppPicker()
-        }
+        findViewById<Button>(R.id.btnAddApp).setOnClickListener { showAppPicker() }
 
-        // Website button → text input dialog
         findViewById<Button>(R.id.btnAddWebsite).setOnClickListener {
-            showAddDialog(
-                title = "Block a Website",
-                hint = "e.g. instagram.com",
-                key = KEY_WEBSITES,
-                listView = findViewById(R.id.tvWebsitesList)
-            )
+            showAddDialog("Block a Website", "e.g. instagram.com", KEY_WEBSITES)
         }
 
-        // Keyword button → text input dialog
         findViewById<Button>(R.id.btnAddKeyword).setOnClickListener {
-            showAddDialog(
-                title = "Block a Keyword",
-                hint = "e.g. reels",
-                key = KEY_KEYWORDS,
-                listView = findViewById(R.id.tvKeywordsList)
-            )
+            showAddDialog("Block a Keyword", "e.g. reels", KEY_KEYWORDS)
         }
 
-        refreshAllLists()
+        findViewById<Button>(R.id.btnSendReport).setOnClickListener {
+            sendWeeklyReport()
+        }
     }
 
     // -----------------------------------------------------------------------
-    // Seeds default blocked lists on the very first install
+    // Default preset seeding on first launch
     // -----------------------------------------------------------------------
     private fun seedDefaultsIfNeeded() {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         if (prefs.getBoolean(KEY_INITIALIZED, false)) return
-
         prefs.edit()
             .putStringSet(KEY_APPS, DEFAULT_APPS.toMutableSet())
             .putStringSet(KEY_WEBSITES, DEFAULT_WEBSITES.toMutableSet())
@@ -102,22 +87,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     // -----------------------------------------------------------------------
-    // App Picker — shows all installed user apps with their icons and names
+    // App Picker using packageManager
     // -----------------------------------------------------------------------
     private fun showAppPicker() {
         val pm = packageManager
-
-        // Load all installed apps except system apps
         val allApps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
             .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
             .sortedBy { pm.getApplicationLabel(it).toString().lowercase() }
 
-        // Build a simple list of (AppName, PackageName)
         val appNames = allApps.map { pm.getApplicationLabel(it).toString() }.toTypedArray()
         val appIcons = allApps.map { pm.getApplicationIcon(it) }
-
-        // Custom adapter to show icon + name
         val inflater = LayoutInflater.from(this)
+
         val adapter = object : ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, appNames) {
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
                 val row = inflater.inflate(R.layout.item_app_picker, parent, false)
@@ -129,7 +110,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         val listView = ListView(this).apply { this.adapter = adapter }
-
         val dialog = AlertDialog.Builder(this, R.style.BlockerDialog)
             .setTitle("Pick an App to Block")
             .setView(listView)
@@ -137,21 +117,18 @@ class MainActivity : AppCompatActivity() {
             .create()
 
         listView.setOnItemClickListener { _, _, position, _ ->
-            val pkg = allApps[position].packageName
             val name = appNames[position]
-            addToPrefs(KEY_APPS, pkg)
-            refreshList(KEY_APPS, findViewById(R.id.tvAppsList))
-            Toast.makeText(this, "\"$name\" blocked ✓", Toast.LENGTH_SHORT).show()
+            addToPrefs(KEY_APPS, allApps[position].packageName)
+            Toast.makeText(this, "✓ \"$name\" is now being blocked.", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
-
         dialog.show()
     }
 
     // -----------------------------------------------------------------------
-    // Text-input dialog for websites and keywords
+    // Text-input dialog (websites + keywords)
     // -----------------------------------------------------------------------
-    private fun showAddDialog(title: String, hint: String, key: String, listView: TextView) {
+    private fun showAddDialog(title: String, hint: String, key: String) {
         val input = EditText(this).apply {
             inputType = InputType.TYPE_CLASS_TEXT
             this.hint = hint
@@ -160,7 +137,6 @@ class MainActivity : AppCompatActivity() {
             setBackgroundColor(0xFF12122A.toInt())
             setPadding(24, 16, 24, 16)
         }
-
         AlertDialog.Builder(this, R.style.BlockerDialog)
             .setTitle(title)
             .setView(input)
@@ -168,8 +144,7 @@ class MainActivity : AppCompatActivity() {
                 val value = input.text.toString().trim().lowercase()
                 if (value.isNotEmpty()) {
                     addToPrefs(key, value)
-                    refreshList(key, listView)
-                    Toast.makeText(this, "\"$value\" blocked ✓", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "✓ \"$value\" is now being blocked.", Toast.LENGTH_SHORT).show()
                 }
             }
             .setNegativeButton("Cancel", null)
@@ -177,31 +152,128 @@ class MainActivity : AppCompatActivity() {
     }
 
     // -----------------------------------------------------------------------
-    // SharedPreferences helpers
+    // Weekly Report — compiles stats and opens Gmail with pre-filled email
+    // -----------------------------------------------------------------------
+    private fun sendWeeklyReport() {
+        val stats = getSharedPreferences(STATS_PREFS, Context.MODE_PRIVATE)
+        val prefs  = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+
+        val thisWeek   = stats.getInt("weekly_blocks", 0)
+        val lastWeek   = stats.getInt("last_week_total", 0)
+        val totalEver  = stats.getInt("total_blocks", 0)
+        val blockedApps = prefs.getStringSet(KEY_APPS, emptySet()) ?: emptySet()
+        val blockedSites = prefs.getStringSet(KEY_WEBSITES, emptySet()) ?: emptySet()
+
+        // Per-app breakdown
+        val appBreakdown = blockedApps.joinToString("\n") { pkg ->
+            val key = "app_count_${pkg.replace('.', '_')}"
+            val count = stats.getInt(key, 0)
+            val name = try {
+                packageManager.getApplicationLabel(
+                    packageManager.getApplicationInfo(pkg, 0)
+                ).toString()
+            } catch (e: Exception) { pkg }
+            "  • $name: $count block(s)"
+        }
+
+        // Hourly heatmap (last 7 days)
+        val timestamps = (stats.getString("block_timestamps", "") ?: "")
+            .split(",").filter { it.isNotBlank() }
+            .mapNotNull { it.toLongOrNull() }
+        val hourCounts = IntArray(24)
+        val cal = Calendar.getInstance()
+        val sevenDaysAgo = System.currentTimeMillis() - 7L * 24 * 60 * 60 * 1000
+        timestamps.filter { it > sevenDaysAgo }.forEach {
+            cal.timeInMillis = it
+            hourCounts[cal.get(Calendar.HOUR_OF_DAY)]++
+        }
+        val peakHour = hourCounts.indices.maxByOrNull { hourCounts[it] } ?: 0
+        val peakLabel = SimpleDateFormat("ha", Locale.getDefault())
+            .format(cal.apply { set(Calendar.HOUR_OF_DAY, peakHour) }.time)
+
+        // Trend emoji
+        val trend = when {
+            thisWeek < lastWeek -> "📉 Improved! Down ${lastWeek - thisWeek} vs last week"
+            thisWeek > lastWeek -> "📈 More attempts this week (+${thisWeek - lastWeek})"
+            else                -> "➡️ Same as last week"
+        }
+
+        val dateStr = SimpleDateFormat("dd MMM yyyy", Locale.getDefault()).format(Date())
+
+        val subject = "📊 Study Sanctum Weekly Report — $dateStr"
+        val body = """
+Hello Riddhim,
+
+Here is your Focus Guard Weekly Report for the week ending $dateStr.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🛡️  WEEKLY OVERVIEW
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  This week's blocked attempts  : $thisWeek
+  Last week's blocked attempts  : $lastWeek
+  Trend                         : $trend
+  All-time total blocked        : $totalEver
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📱  BLOCKED APP BREAKDOWN (this week)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${if (appBreakdown.isBlank()) "  No attempts recorded." else appBreakdown}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+⏰  PEAK DISTRACTION TIME
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  You most often try to open blocked apps around $peakLabel.
+  Consider putting your phone on Do Not Disturb during this window.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🌐  CURRENTLY BLOCKED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Apps     : ${blockedApps.size} blocked
+  Websites : ${blockedSites.size} blocked
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+💡  COACH'S NOTE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+${buildCoachNote(thisWeek, lastWeek)}
+
+Keep going. Your CA/ISC exams are worth more than a 15-second reel.
+— Study Sanctum Focus Guard
+        """.trimIndent()
+
+        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf(REPORT_EMAIL))
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, body)
+        }
+
+        if (emailIntent.resolveActivity(packageManager) != null) {
+            startActivity(Intent.createChooser(emailIntent, "Send Report via…"))
+        } else {
+            Toast.makeText(this, "No email app found on this device.", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    private fun buildCoachNote(thisWeek: Int, lastWeek: Int): String = when {
+        thisWeek == 0             -> "  🏆 Perfect week! Zero attempts on any blocked app. You are in the zone."
+        thisWeek < lastWeek       -> "  ✅ You improved this week. Every time you didn't open Instagram,\n  you chose your future over a dopamine hit. Keep that streak alive."
+        thisWeek in 1..5          -> "  🙂 Only $thisWeek attempt(s) this week — that's great control.\n  The Motivation Wall is doing its job."
+        thisWeek in 6..15         -> "  ⚠️  $thisWeek attempts this week. Try placing your phone face-down\n  during study sessions to reduce temptation."
+        else                      -> "  🚨 $thisWeek attempts! Consider enabling Grayscale mode on your phone\n  and using a physical timer (Pomodoro: 25 min on, 5 min off)."
+    }
+
+    // -----------------------------------------------------------------------
+    // SharedPreferences helper
     // -----------------------------------------------------------------------
     private fun addToPrefs(key: String, value: String) {
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val current = prefs.getStringSet(key, mutableSetOf())!!.toMutableSet()
         current.add(value)
         prefs.edit().putStringSet(key, current).apply()
-    }
-
-    private fun refreshList(key: String, textView: TextView) {
-        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val items = prefs.getStringSet(key, emptySet()) ?: emptySet()
-        textView.text = if (items.isEmpty()) {
-            "None blocked yet."
-        } else {
-            items.sorted().joinToString("\n") { "• $it" }
-        }
-        textView.setTextColor(
-            if (items.isEmpty()) 0xFF555577.toInt() else 0xFFCCCCDD.toInt()
-        )
-    }
-
-    private fun refreshAllLists() {
-        refreshList(KEY_APPS, findViewById(R.id.tvAppsList))
-        refreshList(KEY_WEBSITES, findViewById(R.id.tvWebsitesList))
-        refreshList(KEY_KEYWORDS, findViewById(R.id.tvKeywordsList))
     }
 }

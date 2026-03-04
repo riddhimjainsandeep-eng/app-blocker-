@@ -3079,7 +3079,6 @@ int id btnAddApp 0x7f0801c2
 int id btnAddKeyword 0x7f0801c3
 int id btnAddWebsite 0x7f0801c4
 int id btnBackToStudy 0x7f080058
-int id btnClearAll 0x7f0801c5
 int id btnEnableService 0x7f0801c6
 int id buttonPanel 0x7f080059
 int id cancel_button 0x7f08005a
@@ -3193,6 +3192,7 @@ int id invisible 0x7f0800c5
 int id inward 0x7f0800c6
 int id italic 0x7f0800c7
 int id item_touch_helper_previous_elevation 0x7f0800c8
+int id ivAppIcon 0x7f0801ca
 int id jumpToEnd 0x7f0800c9
 int id jumpToStart 0x7f0800ca
 int id labeled 0x7f0800cb
@@ -3425,8 +3425,10 @@ int id transition_position 0x7f0801ad
 int id transition_scene_layoutid_cache 0x7f0801ae
 int id transition_transform 0x7f0801af
 int id triangle 0x7f0801b0
+int id tvAppName 0x7f0801cb
 int id tvAppsList 0x7f0801c7
 int id tvKeywordsList 0x7f0801c8
+int id tvPackageName 0x7f0801cc
 int id tvWebsitesList 0x7f0801c9
 int id unchecked 0x7f0801b1
 int id uniform 0x7f0801b2
@@ -3579,6 +3581,7 @@ int layout design_text_input_end_icon 0x7f0b002b
 int layout design_text_input_start_icon 0x7f0b002c
 int layout ime_base_split_test_activity 0x7f0b002d
 int layout ime_secondary_split_test_activity 0x7f0b002e
+int layout item_app_picker 0x7f0b006d
 int layout m3_alert_dialog 0x7f0b002f
 int layout m3_alert_dialog_actions 0x7f0b0030
 int layout m3_alert_dialog_title 0x7f0b0031

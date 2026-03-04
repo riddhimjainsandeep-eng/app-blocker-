@@ -5,13 +5,16 @@ id btnAddApp
 id btnAddKeyword
 id btnAddWebsite
 id btnBackToStudy
-id btnClearAll
 id btnEnableService
+id ivAppIcon
+id tvAppName
 id tvAppsList
 id tvKeywordsList
+id tvPackageName
 id tvWebsitesList
 layout activity_main
 layout activity_motivation
+layout item_app_picker
 string app_name
 style BlockerButton
 style BlockerDialog

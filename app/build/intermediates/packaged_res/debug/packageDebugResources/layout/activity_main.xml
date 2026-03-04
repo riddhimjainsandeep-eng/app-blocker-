@@ -184,17 +184,5 @@
                 android:lineSpacingExtra="4dp" />
         </LinearLayout>
 
-        <!-- Emergency Reset -->
-        <Button
-            android:id="@+id/btnClearAll"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:text="Clear All Blocked Items"
-            android:textColor="#FF6B6B"
-            android:textSize="14sp"
-            android:backgroundTint="#1A0A0A"
-            android:stateListAnimator="@null"
-            android:layout_marginBottom="32dp" />
-
     </LinearLayout>
 </ScrollView>
