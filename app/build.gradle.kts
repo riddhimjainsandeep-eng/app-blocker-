@@ -28,6 +28,16 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    // Fix: JavaMail libs ship duplicate META-INF files — exclude them
+    packaging {
+        resources {
+            excludes += "/META-INF/NOTICE.md"
+            excludes += "/META-INF/LICENSE.md"
+            excludes += "/META-INF/NOTICE"
+            excludes += "/META-INF/LICENSE"
+        }
+    }
 }
 
 dependencies {
