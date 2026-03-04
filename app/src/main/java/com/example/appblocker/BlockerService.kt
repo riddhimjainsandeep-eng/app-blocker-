@@ -71,17 +71,25 @@ class BlockerService : AccessibilityService() {
         if (targetBrowsers.contains(packageName)) {
             val rootNode = rootInActiveWindow ?: return
 
-            // CHROME URL FORCE-CHECK: Runs every time Chrome is active
-            if (packageName == "com.android.chrome" && blockedWebsites.isNotEmpty()) {
-                val urlBarNodes = rootNode.findAccessibilityNodeInfosByViewId(
-                    "com.android.chrome:id/url_bar"
-                )
-                if (urlBarNodes != null && urlBarNodes.isNotEmpty()) {
-                    val url = urlBarNodes[0].text?.toString()?.lowercase() ?: ""
-                    val isBlockedSite = blockedWebsites.any { url.contains(it) }
-                    if (isBlockedSite) {
-                        launchMotivationScreen()
-                        return
+            // URL BAR CHECK: Runs every time the browser is active (all event types)
+            // Chrome exposes a stable view ID for its URL bar — most reliable method
+            if (blockedWebsites.isNotEmpty()) {
+                val urlBarId = when (packageName) {
+                    "com.android.chrome"         -> "com.android.chrome:id/url_bar"
+                    "com.sec.android.app.sbrowser" -> "com.sec.android.app.sbrowser:id/location_bar_edit_text"
+                    "com.brave.browser"          -> "com.brave.browser:id/url_bar"
+                    "org.mozilla.firefox"        -> "org.mozilla.firefox:id/mozac_browser_toolbar_url_view"
+                    else                         -> null
+                }
+
+                if (urlBarId != null) {
+                    val urlBarNodes = rootNode.findAccessibilityNodeInfosByViewId(urlBarId)
+                    if (urlBarNodes != null && urlBarNodes.isNotEmpty()) {
+                        val url = urlBarNodes[0].text?.toString()?.lowercase() ?: ""
+                        if (blockedWebsites.any { url.contains(it) }) {
+                            launchMotivationScreen()
+                            return
+                        }
                     }
                 }
             }

@@ -2888,6 +2888,7 @@ int drawable btn_radio_off_mtrl 0x7f07007d
 int drawable btn_radio_off_to_on_mtrl_animation 0x7f07007e
 int drawable btn_radio_on_mtrl 0x7f07007f
 int drawable btn_radio_on_to_off_mtrl_animation 0x7f070080
+int drawable card_background 0x7f0700e3
 int drawable design_fab_background 0x7f070081
 int drawable design_ic_visibility 0x7f070082
 int drawable design_ic_visibility_off 0x7f070083
@@ -3074,7 +3075,12 @@ int id beginning 0x7f080054
 int id blocking 0x7f080055
 int id bottom 0x7f080056
 int id bounce 0x7f080057
+int id btnAddApp 0x7f0801c2
+int id btnAddKeyword 0x7f0801c3
+int id btnAddWebsite 0x7f0801c4
 int id btnBackToStudy 0x7f080058
+int id btnClearAll 0x7f0801c5
+int id btnEnableService 0x7f0801c6
 int id buttonPanel 0x7f080059
 int id cancel_button 0x7f08005a
 int id center 0x7f08005b
@@ -3419,6 +3425,9 @@ int id transition_position 0x7f0801ad
 int id transition_scene_layoutid_cache 0x7f0801ae
 int id transition_transform 0x7f0801af
 int id triangle 0x7f0801b0
+int id tvAppsList 0x7f0801c7
+int id tvKeywordsList 0x7f0801c8
+int id tvWebsitesList 0x7f0801c9
 int id unchecked 0x7f0801b1
 int id uniform 0x7f0801b2
 int id unlabeled 0x7f0801b3
@@ -3550,6 +3559,7 @@ int layout abc_search_dropdown_item_icons_2line 0x7f0b0018
 int layout abc_search_view 0x7f0b0019
 int layout abc_select_dialog_material 0x7f0b001a
 int layout abc_tooltip 0x7f0b001b
+int layout activity_main 0x7f0b006c
 int layout activity_motivation 0x7f0b001c
 int layout custom_dialog 0x7f0b001d
 int layout design_bottom_navigation_item 0x7f0b001e
@@ -4085,6 +4095,8 @@ int style Base_Widget_MaterialComponents_Snackbar 0x7f0f011b
 int style Base_Widget_MaterialComponents_TextInputEditText 0x7f0f011c
 int style Base_Widget_MaterialComponents_TextInputLayout 0x7f0f011d
 int style Base_Widget_MaterialComponents_TextView 0x7f0f011e
+int style BlockerButton 0x7f0f045d
+int style BlockerDialog 0x7f0f045e
 int style CardView 0x7f0f011f
 int style CardView_Dark 0x7f0f0120
 int style CardView_Light 0x7f0f0121
