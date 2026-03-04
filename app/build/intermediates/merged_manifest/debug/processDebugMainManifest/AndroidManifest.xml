@@ -48,6 +48,9 @@
             android:name="com.example.appblocker.MotivationActivity"
             android:exported="false"
             android:launchMode="singleTask" />
+        <activity
+            android:name="com.example.appblocker.StatsActivity"
+            android:exported="false" />
 
         <service
             android:name="com.example.appblocker.BlockerService"

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Focus Blocker</string>
+    <string name="app_name">Focus Guard</string>
+    <string name="device_admin_description">Enabling this prevents accidental or impulsive uninstallation of Focus Guard. To uninstall, you must deactivate this first.</string>
 </resources>

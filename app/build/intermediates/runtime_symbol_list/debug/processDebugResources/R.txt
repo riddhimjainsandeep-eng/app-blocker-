@@ -3085,6 +3085,7 @@ int id btnAddWebsite 0x7f0801c4
 int id btnBackToStudy 0x7f080058
 int id btnEnableService 0x7f0801c6
 int id btnSendReport 0x7f0801cd
+int id btnViewStats 0x7f0801ce
 int id buttonPanel 0x7f080059
 int id cancel_button 0x7f08005a
 int id center 0x7f08005b
@@ -6733,3 +6734,4 @@ int styleable ViewStubCompat_android_id 0
 int styleable ViewStubCompat_android_layout 1
 int styleable ViewStubCompat_android_inflatedId 2
 int xml accessibility_service_config 0x7f110000
+int xml device_admin 0x7f110001

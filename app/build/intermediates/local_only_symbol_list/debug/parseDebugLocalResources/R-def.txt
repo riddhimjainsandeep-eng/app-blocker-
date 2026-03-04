@@ -7,6 +7,7 @@ id btnAddWebsite
 id btnBackToStudy
 id btnEnableService
 id btnSendReport
+id btnViewStats
 id ivAppIcon
 id tvAppName
 id tvPackageName
@@ -19,3 +20,4 @@ style BlockerButton
 style BlockerDialog
 style Theme.AppBlocker
 xml accessibility_service_config
+xml device_admin

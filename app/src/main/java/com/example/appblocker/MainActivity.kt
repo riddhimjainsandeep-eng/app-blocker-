@@ -13,6 +13,8 @@ import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
+import android.app.admin.DevicePolicyManager
+import android.content.ComponentName
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -64,6 +66,20 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnViewStats).setOnClickListener {
             startActivity(Intent(this, StatsActivity::class.java))
         }
+
+        // Anti-Uninstall Protection
+        findViewById<Button>(R.id.btnProtectUninstall).setOnClickListener {
+            activateDeviceAdmin()
+        }
+    }
+
+    private fun activateDeviceAdmin() {
+        val componentName = ComponentName(this, AppBlockerAdminReceiver::class.java)
+        val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
+            putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, componentName)
+            putExtra(DevicePolicyManager.EXTRA_ADD_EXPLANATION, "Enabling this adds friction to uninstallation, helping you stay focused.")
+        }
+        startActivity(intent)
     }
 
     // ── Seed defaults on very first install ──────────────────────────────────
