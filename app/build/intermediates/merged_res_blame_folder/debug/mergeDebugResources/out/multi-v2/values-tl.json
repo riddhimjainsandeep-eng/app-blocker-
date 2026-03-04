@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.example.appblocker.app-mergeDebugResources-29:/values-tl/values-tl.xml",
+            "outputFile": "com.example.appblocker.app-mergeDebugResources-36:/values-tl/values-tl.xml",
             "map": [
                 {
                     "source": "C:\\Users\\riddh\\.gradle\\caches\\transforms-4\\ac02b4820c459a6ba97ebca5b726e65e\\transformed\\material-1.11.0\\res\\values-tl\\values-tl.xml",
