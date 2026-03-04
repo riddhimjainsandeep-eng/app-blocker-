@@ -3,8 +3,10 @@ package com.example.appblocker
 import android.content.Context
 import android.graphics.*
 import android.os.Bundle
+import android.view.Gravity
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -20,186 +22,215 @@ class StatsActivity : AppCompatActivity() {
         val lastWeek   = stats.getInt("last_week_total", 0)
         val totalEver  = stats.getInt("total_blocks", 0)
         val blockedApps = prefs.getStringSet("blocked_apps", emptySet()) ?: emptySet()
+        val isWhitelist = prefs.getBoolean("is_whitelist_mode", false)
 
-        // Blocks in last 24 h
         val timestamps = (stats.getString("block_timestamps", "") ?: "")
             .split(",").filter { it.isNotBlank() }.mapNotNull { it.toLongOrNull() }
         val oneDayAgo = System.currentTimeMillis() - 24L * 60 * 60 * 1000
         val todayBlocks = timestamps.count { it > oneDayAgo }
 
-        // ── Root scroll layout ────────────────────────────────────────────
-        val scroll = ScrollView(this).apply { setBackgroundColor(0xFF0D0D1A.toInt()) }
+        // Focus Score calculation (inverse of blocks vs target)
+        val targetBlocks = 5 // subjective "at most" per day
+        val focusScore = if (todayBlocks <= targetBlocks) 100 - (todayBlocks * 10) else maxOf(0, 50 - (todayBlocks * 2))
+
+        // ── Root Scroll ───────────────────────────────────────────────────
+        val scroll = ScrollView(this).apply { 
+            setBackgroundColor(0xFF0D0D1A.toInt()) 
+            isFillViewport = true
+        }
         val root = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(40, 48, 40, 48)
-            gravity = android.view.Gravity.CENTER_HORIZONTAL
+            setPadding(40, 64, 40, 64)
+            gravity = Gravity.CENTER_HORIZONTAL
         }
         scroll.addView(root)
         setContentView(scroll)
 
-        // ── Title ─────────────────────────────────────────────────────────
-        root.addView(textView("📊 Focus Stats", 26f, 0xFFC8A2F8.toInt(), bold = true, bottomPad = 4))
-        root.addView(textView(
-            SimpleDateFormat("dd MMMM yyyy", Locale.getDefault()).format(Date()),
-            12f, 0xFF6666AA.toInt(), bottomPad = 32
-        ))
+        // ── Header ────────────────────────────────────────────────────────
+        root.addView(textView("YOUR FOCUS CENTER", 12f, 0xFFA2E8F8.toInt(), letterSpacing = 0.4f, bottomPad = 8))
+        root.addView(textView("Deep Study Mode", 32f, 0xFFFFFFFF.toInt(), bold = true, bottomPad = 32))
 
-        // ── Ring chart: today's blocks ────────────────────────────────────
-        val ringChart = RingChartView(this, todayBlocks, thisWeek, totalEver)
-        val chartParams = LinearLayout.LayoutParams(560, 560).apply { bottomMargin = 32 }
-        root.addView(ringChart, chartParams)
+        // ── Glowing Focus Dial ────────────────────────────────────────────
+        val ringChart = PremiumRingView(this, focusScore, todayBlocks)
+        root.addView(ringChart, LinearLayout.LayoutParams(650, 650).apply { bottomMargin = 48 })
 
-        // ── Stats cards ───────────────────────────────────────────────────
-        root.addView(card(listOf(
-            "Today's block attempts"    to "$todayBlocks",
-            "This week"                 to "$thisWeek",
-            "Last week"                 to "$lastWeek",
-            "All-time total"            to "$totalEver",
-            "Week-over-week trend"      to if (thisWeek < lastWeek) "📉 Improved" else if (thisWeek > lastWeek) "📈 More attempts" else "➡️ Stable"
-        )))
+        // ── Whitelist Toggle (Special Card) ───────────────────────────────
+        root.addView(whitelistCard(isWhitelist) { enabled ->
+            prefs.edit().putBoolean("is_whitelist_mode", enabled).apply()
+            Toast.makeText(this, if (enabled) "Whitelist ON: Only study apps allowed" else "Whitelist OFF: Back to standard blocking", Toast.LENGTH_SHORT).show()
+        })
+        root.addView(spacer(24))
+
+        // ── Stats Cards Grid Row ──────────────────────────────────────────
+        val row = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        row.addView(smallCard("THIS WEEK", "$thisWeek", 0.5f))
+        row.addView(spacer(16, horizontal = true))
+        row.addView(smallCard("TREND", if (thisWeek < lastWeek) "📉 UP" else "📈 DOWN", 0.5f))
+        root.addView(row)
         root.addView(spacer(16))
 
-        // ── Per-app breakdown ─────────────────────────────────────────────
-        root.addView(textView("APP BREAKDOWN", 10f, 0xFF6666AA.toInt(), bold = false, bottomPad = 8,
-            letterSpacing = 0.2f))
+        // ── Top Distractions ──────────────────────────────────────────────
+        root.addView(textView("TOP DISTRACTIONS", 10f, 0xFF6666AA.toInt(), letterSpacing = 0.2f, bottomPad = 12))
         val pm = packageManager
-        if (blockedApps.isEmpty()) {
-            root.addView(textView("No apps in blocklist yet.", 13f, 0xFF555577.toInt(), bottomPad = 0))
+        val sortedApps = blockedApps.map { pkg ->
+            val key = "app_count_${pkg.replace('.', '_')}"
+            pkg to stats.getInt(key, 0)
+        }.sortedByDescending { it.second }.take(4)
+
+        if (sortedApps.isEmpty()) {
+            root.addView(textView("No data recorded yet.", 13f, 0xFF555577.toInt()))
         } else {
-            blockedApps.forEach { pkg ->
-                val key   = "app_count_${pkg.replace('.', '_')}"
-                val count = stats.getInt(key, 0)
-                val name  = try { pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString() } catch (e: Exception) { pkg }
-                val pct   = if (totalEver > 0) (count * 100 / totalEver) else 0
-                root.addView(appRow(name, count, pct))
+            sortedApps.forEach { (pkg, count) ->
+                val name = try { pm.getApplicationLabel(pm.getApplicationInfo(pkg, 0)).toString() } catch (e: Exception) { pkg }
+                root.addView(distractionRow(name, count, totalEver))
             }
         }
 
-        // ── Back button ───────────────────────────────────────────────────
-        root.addView(spacer(32))
-        val back = Button(this).apply {
-            text = "← Back"
-            textSize = 14f
-            setTextColor(0xFF0D0D1A.toInt())
-            backgroundTintList = android.content.res.ColorStateList.valueOf(0xFFC8A2F8.toInt())
-            stateListAnimator = null
+        // ── Footer back button ────────────────────────────────────────────
+        root.addView(spacer(48))
+        val back = textView("DISMISS", 12f, 0xFF6666AA.toInt(), letterSpacing = 0.2f).apply {
             setOnClickListener { finish() }
+            setPadding(40, 40, 40, 40)
         }
-        root.addView(back, LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, 140))
+        root.addView(back)
     }
 
-    // ── Per-app row ───────────────────────────────────────────────────────
-    private fun appRow(name: String, count: Int, pct: Int): LinearLayout {
-        val row = LinearLayout(this).apply {
-            orientation = LinearLayout.HORIZONTAL
-            setPadding(20, 14, 20, 14)
-            setBackgroundColor(0xFF12122A.toInt())
-            val params = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            params.bottomMargin = 6
-            layoutParams = params
-        }
-        val nameV = textView(name, 13f, 0xFFCCCCDD.toInt(), bottomPad = 0)
-        nameV.layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-        val countV = textView("$count blocks  ($pct%)", 13f, 0xFFC8A2F8.toInt(), bold = true, bottomPad = 0)
-        row.addView(nameV)
-        row.addView(countV)
-        return row
-    }
+    // ── UI HELPERS ────────────────────────────────────────────────────────
 
-    // ── Stats card ────────────────────────────────────────────────────────
-    private fun card(pairs: List<Pair<String, String>>): LinearLayout {
+    private fun whitelistCard(active: Boolean, onToggle: (Boolean) -> Unit): LinearLayout {
         val card = LinearLayout(this).apply {
+            orientation = LinearLayout.HORIZONTAL
+            setPadding(32, 32, 32, 32)
+            background = createCardDrawable(0xFF15152A.toInt())
+            gravity = Gravity.CENTER_VERTICAL
+        }
+        val textLayout = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setBackgroundColor(0xFF12122A.toInt())
-            setPadding(24, 20, 24, 20)
-            val p = LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-            p.bottomMargin = 16
-            layoutParams = p
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
         }
-        pairs.forEach { (label, value) ->
-            val row = LinearLayout(this).apply {
-                orientation = LinearLayout.HORIZONTAL
-                val p = LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-                p.bottomMargin = 10
-                layoutParams = p
-            }
-            val lbl = textView(label, 13f, 0xFF8888AA.toInt(), bottomPad = 0)
-            lbl.layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1f)
-            row.addView(lbl)
-            row.addView(textView(value, 13f, 0xFFFFFFFF.toInt(), bold = true, bottomPad = 0))
-            card.addView(row)
+        textLayout.addView(textView("Strict Whitelist Mode", 15f, 0xFFFFFFFF.toInt(), bold = true, bottomPad = 4, wrap = true).apply { gravity = Gravity.START })
+        textLayout.addView(textView("Block everything except study essentials", 11f, 0xFFA2E8F8.toInt(), wrap = true).apply { gravity = Gravity.START })
+        
+        val sw = Switch(this).apply {
+            isChecked = active
+            setOnCheckedChangeListener { _, isChecked -> onToggle(isChecked) }
         }
+        
+        card.addView(textLayout)
+        card.addView(sw)
         return card
     }
 
-    private fun textView(text: String, size: Float, color: Int, bold: Boolean = false,
-                         bottomPad: Int = 0, letterSpacing: Float = 0f) = TextView(this).apply {
+    private fun smallCard(title: String, value: String, weight: Float): LinearLayout {
+        return LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(32, 28, 32, 28)
+            background = createCardDrawable(0xFF15152A.toInt())
+            layoutParams = LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, weight)
+            addView(textView(title, 10f, 0xFF6666AA.toInt(), letterSpacing = 0.1f, bottomPad = 8))
+            addView(textView(value, 20f, 0xFFFFFFFF.toInt(), bold = true))
+        }
+    }
+
+    private fun distractionRow(name: String, count: Int, total: Int): LinearLayout {
+        val row = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(0, 0, 0, 24)
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        }
+        val textRow = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+        textRow.addView(textView(name, 13f, 0xFFCCCCDD.toInt()).apply { 
+            layoutParams = LinearLayout.LayoutParams(0, -2, 1f); gravity = Gravity.START 
+        })
+        textRow.addView(textView("$count attempts", 13f, 0xFFC8A2F8.toInt(), bold = true).apply { 
+            layoutParams = LinearLayout.LayoutParams(-2, -2); gravity = Gravity.END 
+        })
+        
+        val progressBg = View(this).apply {
+            setBackgroundColor(0xFF12122A.toInt())
+            layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, 8)
+        }
+        val pct = if (total > 0) (count.toFloat() / total).coerceAtMost(1f) else 0f
+        val progressFg = View(this).apply {
+            setBackgroundColor(0xFFC8A2F8.toInt())
+            layoutParams = LinearLayout.LayoutParams((100 * pct).toInt(), 8).apply { topMargin = -8 }
+        }
+
+        row.addView(textRow)
+        row.addView(spacer(8))
+        row.addView(progressBg)
+        val fgBar = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL; layoutParams = LinearLayout.LayoutParams(-1, 8).apply { topMargin = -8 } }
+        fgBar.addView(View(this).apply { 
+            background = createGradientDrawable(intArrayOf(0xFFC8A2F8.toInt(), 0xFFA2E8F8.toInt()), 4f)
+            layoutParams = LinearLayout.LayoutParams(0, 8, pct) 
+        })
+        fgBar.addView(View(this).apply { layoutParams = LinearLayout.LayoutParams(0, 8, 1-pct) })
+        row.addView(fgBar)
+
+        return row
+    }
+
+    private fun textView(text: String, size: Float, color: Int, bold: Boolean = false, 
+                         bottomPad: Int = 0, letterSpacing: Float = 0f, wrap: Boolean = false) = TextView(this).apply {
         this.text = text; textSize = size; setTextColor(color)
         if (bold) typeface = Typeface.DEFAULT_BOLD
         if (letterSpacing > 0) this.letterSpacing = letterSpacing
-        gravity = android.view.Gravity.CENTER_HORIZONTAL
+        gravity = Gravity.CENTER_HORIZONTAL
         setPadding(0, 0, 0, bottomPad)
-        layoutParams = LinearLayout.LayoutParams(
-            LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        if (!wrap) isSingleLine = true
     }
 
-    private fun spacer(dp: Int) = android.view.View(this).apply {
-        layoutParams = LinearLayout.LayoutParams(1, (dp * resources.displayMetrics.density).toInt())
+    private fun spacer(dp: Int, horizontal: Boolean = false) = View(this).apply {
+        val size = (dp * resources.displayMetrics.density).toInt()
+        layoutParams = if (horizontal) LinearLayout.LayoutParams(size, 1) else LinearLayout.LayoutParams(1, size)
+    }
+
+    private fun createCardDrawable(bgColor: Int) = android.graphics.drawable.GradientDrawable().apply {
+        setColor(bgColor)
+        cornerRadius = 32f
+        setStroke(1, 0xFF2A2A4A.toInt())
+    }
+
+    private fun createGradientDrawable(colors: IntArray, radiusDp: Float) = android.graphics.drawable.GradientDrawable().apply {
+        this.colors = colors
+        orientation = android.graphics.drawable.GradientDrawable.Orientation.LEFT_RIGHT
+        cornerRadius = radiusDp * resources.displayMetrics.density
     }
 }
 
-// ── Custom ring chart view ────────────────────────────────────────────────────
-class RingChartView(
-    context: Context,
-    private val today: Int,
-    private val week: Int,
-    private val total: Int
-) : android.view.View(context) {
-
-    private val bgPaint      = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 38f; color = 0xFF1A1A2E.toInt() }
-    private val todayPaint   = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 38f; strokeCap = Paint.Cap.ROUND; color = 0xFFC8A2F8.toInt() }
-    private val weekPaint    = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeWidth = 38f; strokeCap = Paint.Cap.ROUND; color = 0xFFA2E8F8.toInt() }
-    private val textPaint    = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; color = 0xFFFFFFFF.toInt() }
-    private val subTextPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; color = 0xFF8888AA.toInt() }
-    private val labelPaint   = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER; color = 0xFF6666AA.toInt() }
+class PremiumRingView(context: Context, private val score: Int, private val blocks: Int) : View(context) {
+    private val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply { style = Paint.Style.STROKE; strokeCap = Paint.Cap.ROUND }
+    private val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply { textAlign = Paint.Align.CENTER }
 
     override fun onDraw(canvas: Canvas) {
         val cx = width / 2f; val cy = height / 2f
-        val outerR = minOf(cx, cy) * 0.82f
-        val innerR = outerR - 52f
+        val radius = minOf(cx, cy) * 0.7f
+        val rect = RectF(cx - radius, cy - radius, cx + radius, cy + radius)
 
-        val outerRect = RectF(cx - outerR, cy - outerR, cx + outerR, cy + outerR)
-        val innerRect = RectF(cx - innerR, cy - innerR, cx + innerR, cy + innerR)
+        // Background Ring
+        paint.color = 0xFF15152A.toInt(); paint.strokeWidth = 45f
+        canvas.drawArc(rect, 0f, 360f, false, paint)
 
-        // Background rings
-        canvas.drawArc(outerRect, 0f, 360f, false, bgPaint)
-        canvas.drawArc(innerRect, 0f, 360f, false, bgPaint)
+        // Glow
+        paint.setShadowLayer(30f, 0f, 0f, 0xFFC8A2F8.toInt())
+        setLayerType(LAYER_TYPE_SOFTWARE, paint)
 
-        // Today arc (outer ring)
-        val todaySweep = if (total > 0) (today.toFloat() / total * 360f).coerceAtLeast(if (today > 0) 8f else 0f) else 0f
-        canvas.drawArc(outerRect, -90f, todaySweep, false, todayPaint)
+        // Progress Ring
+        val sweep = (score.toFloat() / 100f * 360f)
+        paint.shader = SweepGradient(cx, cy, intArrayOf(0xFFC8A2F8.toInt(), 0xFFA2E8F8.toInt(), 0xFFC8A2F8.toInt()), null).apply {
+            val matrix = Matrix(); matrix.setRotate(-90f, cx, cy); setLocalMatrix(matrix)
+        }
+        canvas.drawArc(rect, -90f, sweep, false, paint)
+        paint.shader = null; paint.clearShadowLayer()
 
-        // Week arc (inner ring)
-        val weekMax   = maxOf(week, 1)
-        val weekSweep = if (total > 0) (week.toFloat() / total * 360f).coerceAtLeast(if (week > 0) 8f else 0f) else 0f
-        canvas.drawArc(innerRect, -90f, weekSweep, false, weekPaint)
+        // Score Text
+        textPaint.color = Color.WHITE; textPaint.textSize = 120f; textPaint.typeface = Typeface.DEFAULT_BOLD
+        canvas.drawText("$score%", cx, cy + 20f, textPaint)
+        
+        textPaint.color = 0xFFA2E8F8.toInt(); textPaint.textSize = 28f; textPaint.typeface = Typeface.DEFAULT; textPaint.letterSpacing = 0.2f
+        canvas.drawText("FOCUS SCORE", cx, cy - 80f, textPaint)
 
-        // Centre text
-        textPaint.textSize = 52f
-        canvas.drawText("$total", cx, cy - 10f, textPaint)
-        subTextPaint.textSize = 26f
-        canvas.drawText("all-time blocks", cx, cy + 28f, subTextPaint)
-
-        // Legend
-        val ly = cy + outerR + 48f
-        labelPaint.textSize = 24f
-        labelPaint.color = 0xFFC8A2F8.toInt()
-        canvas.drawText("● Today: $today", cx - 120f, ly, labelPaint)
-        labelPaint.color = 0xFFA2E8F8.toInt()
-        canvas.drawText("● This week: $week", cx + 120f, ly, labelPaint)
+        textPaint.color = 0xFF6666AA.toInt(); textPaint.textSize = 28f; textPaint.letterSpacing = 0f
+        canvas.drawText("$blocks attempts today", cx, cy + 80f, textPaint)
     }
 }

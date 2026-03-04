@@ -1,6 +1,7 @@
 package com.example.appblocker
 
 import android.os.StrictMode
+import com.example.appblocker.BuildConfig
 import java.util.Properties
 import javax.mail.Message
 import javax.mail.MessagingException
@@ -20,11 +21,8 @@ import javax.mail.internet.MimeMessage
  */
 object EmailSender {
 
-    // ⚠️  This must be a GOOGLE APP PASSWORD (16 chars), NOT your normal Gmail password.
-    // Normal passwords are blocked by Gmail for SMTP. Generate one at:
-    // Google Account → Security → 2-Step Verification → App Passwords
     private const val SENDER_EMAIL   = "appblocker05@gmail.com"
-    private const val APP_PASSWORD    = "bmsufyhnfktpfthf"  // Google App Password (16 chars)
+    private val APP_PASSWORD         = BuildConfig.GMAIL_APP_PASSWORD
 
     fun sendReport(receiverEmail: String, subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
         // Must run on a background thread — network operations crash on main thread

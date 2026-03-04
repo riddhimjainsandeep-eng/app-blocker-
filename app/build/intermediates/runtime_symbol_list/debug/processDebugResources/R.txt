@@ -3083,8 +3083,8 @@ int id btnAddApp 0x7f080058
 int id btnAddKeyword 0x7f080059
 int id btnAddWebsite 0x7f08005a
 int id btnBackToStudy 0x7f08005b
-int id btnCheckUpdate 0x7f08005c
-int id btnEnableService 0x7f08005d
+int id btnEnableService 0x7f08005c
+int id btnManageWhitelist 0x7f08005d
 int id btnProtectUninstall 0x7f08005e
 int id btnSendReport 0x7f08005f
 int id btnViewStats 0x7f080060

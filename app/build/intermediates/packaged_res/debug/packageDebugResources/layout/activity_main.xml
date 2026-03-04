@@ -85,8 +85,19 @@
                 android:id="@+id/btnAddApp"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
-                android:text="📱  Add App to Block"
+                android:text="📱  Manage Blocked Apps"
                 android:textColor="#C8A2F8"
+                android:textSize="15sp"
+                android:backgroundTint="#1A1A2E"
+                android:stateListAnimator="@null"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btnManageWhitelist"
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:text="✅  Manage Whitelist (Essentials)"
+                android:textColor="#A2E8F8"
                 android:textSize="15sp"
                 android:backgroundTint="#1A1A2E"
                 android:stateListAnimator="@null"
@@ -174,18 +185,6 @@
                 android:textSize="15sp"
                 android:textStyle="bold"
                 android:backgroundTint="#0A1A0A"
-                android:stateListAnimator="@null"
-                android:layout_marginBottom="10dp" />
-
-            <Button
-                android:id="@+id/btnCheckUpdate"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:text="🔄  Check for Updates"
-                android:textColor="#CCCCDD"
-                android:textSize="15sp"
-                android:textStyle="bold"
-                android:backgroundTint="#12122A"
                 android:stateListAnimator="@null" />
         </LinearLayout>
 

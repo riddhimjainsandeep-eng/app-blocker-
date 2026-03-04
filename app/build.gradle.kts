@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -13,6 +15,19 @@ android {
         targetSdk = 34
         versionCode = 2
         versionName = "1.1"
+
+        // Inject Gmail App Password from local.properties
+        val properties = Properties()
+        val file = project.rootProject.file("local.properties")
+        if (file.exists()) {
+            file.inputStream().use { properties.load(it) }
+        }
+        val pass = properties.getProperty("GMAIL_APP_PASSWORD") ?: ""
+        buildConfigField("String", "GMAIL_APP_PASSWORD", "\"$pass\"")
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     buildTypes {

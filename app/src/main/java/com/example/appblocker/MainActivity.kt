@@ -51,7 +51,8 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnEnableService).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
-        findViewById<Button>(R.id.btnAddApp).setOnClickListener { showAppPicker() }
+        findViewById<Button>(R.id.btnAddApp).setOnClickListener { showAppPicker(isWhitelist = false) }
+        findViewById<Button>(R.id.btnManageWhitelist).setOnClickListener { showAppPicker(isWhitelist = true) }
         findViewById<Button>(R.id.btnAddWebsite).setOnClickListener {
             showAddDialog("Block a Website", "e.g. instagram.com", KEY_WEBSITES)
         }
@@ -70,10 +71,6 @@ class MainActivity : AppCompatActivity() {
         // Anti-Uninstall Protection
         findViewById<Button>(R.id.btnProtectUninstall).setOnClickListener {
             activateDeviceAdmin()
-        }
-        // Update check
-        findViewById<Button>(R.id.btnCheckUpdate).setOnClickListener {
-            checkForUpdates()
         }
     }
 
@@ -94,6 +91,11 @@ class MainActivity : AppCompatActivity() {
             .putStringSet(KEY_APPS, DEFAULT_APPS.toMutableSet())
             .putStringSet(KEY_WEBSITES, DEFAULT_WEBSITES.toMutableSet())
             .putStringSet(KEY_KEYWORDS, DEFAULT_KEYWORDS.toMutableSet())
+            .putStringSet("whitelist_apps", setOf(
+                "com.google.android.calculator", "com.android.calculator2",
+                "com.google.android.apps.docs", "com.google.android.apps.nbu.files",
+                "org.coursera.android", "com.khanacademy.android", "com.edx.mobile"
+            ))
             .putBoolean(KEY_INITIALIZED, true)
             .apply()
     }
@@ -118,7 +120,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     // ── App Picker ───────────────────────────────────────────────────────────
-    private fun showAppPicker() {
+    private fun showAppPicker(isWhitelist: Boolean) {
+        val key = if (isWhitelist) "whitelist_apps" else KEY_APPS
         val pm = packageManager
         val allApps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
             .filter { pm.getLaunchIntentForPackage(it.packageName) != null }
@@ -148,8 +151,9 @@ class MainActivity : AppCompatActivity() {
 
         listView.setOnItemClickListener { _, _, position, _ ->
             val name = appNames[position]
-            addToPrefs(KEY_APPS, allApps[position].packageName)
-            Toast.makeText(this, "✓ \"$name\" is now being blocked.", Toast.LENGTH_SHORT).show()
+            addToPrefs(key, allApps[position].packageName)
+            val msg = if (isWhitelist) "✓ \"$name\" added to study essentials." else "✓ \"$name\" is now being blocked."
+            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
         dialog.show()
@@ -187,63 +191,4 @@ class MainActivity : AppCompatActivity() {
         prefs.edit().putStringSet(key, current).apply()
     }
 
-    // ── Check for updates ────────────────────────────────────────────────────
-    private fun checkForUpdates() {
-        // Link to the version.json on your GitHub main branch
-        val updateUrl = "https://raw.githubusercontent.com/riddhimjainsandeep-eng/app-blocker-/main/version.json"
-        Toast.makeText(this, "Checking for updates...", Toast.LENGTH_SHORT).show()
-
-        Thread {
-            try {
-                val url = java.net.URL(updateUrl)
-                val connection = url.openConnection() as java.net.HttpURLConnection
-                
-                if (connection.responseCode == 404) {
-                    runOnUiThread {
-                        AlertDialog.Builder(this, R.style.BlockerDialog)
-                            .setTitle("Update Check Failed (404)")
-                            .setMessage("The version file was not found on GitHub.\n\nNote: If your repository is PRIVATE, this check will fail. Make it PUBLIC on GitHub to enable auto-updates.")
-                            .setPositiveButton("OK", null)
-                            .show()
-                    }
-                    return@Thread
-                }
-
-                val text = connection.inputStream.bufferedReader().use { it.readText() }
-                val json = org.json.JSONObject(text)
-
-                val latestCode = json.getInt("versionCode")
-                val latestName = json.getString("versionName")
-                val apkUrl     = json.getString("apkUrl")
-                val notes      = json.optString("notes", "New version available!")
-
-                val currentCode = if (android.os.Build.VERSION.SDK_INT >= 28) {
-                    packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
-                } else {
-                    @Suppress("DEPRECATION")
-                    packageManager.getPackageInfo(packageName, 0).versionCode
-                }
-
-                runOnUiThread {
-                    if (latestCode > currentCode) {
-                        AlertDialog.Builder(this, R.style.BlockerDialog)
-                            .setTitle("Update Available: $latestName")
-                            .setMessage("$notes\n\nWould you like to download the new version?")
-                            .setPositiveButton("Download APK") { _, _ ->
-                                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(apkUrl))
-                                startActivity(intent)
-                            }
-                            .setNegativeButton("Later", null)
-                            .show()
-                    } else {
-                        Toast.makeText(this, "You're up to date! (v$latestName)", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            } catch (e: Exception) {
-                runOnUiThread {
-                    Toast.makeText(this, "Update check failed. Note: JSON must be on GitHub.", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }.start()
-    }
 }

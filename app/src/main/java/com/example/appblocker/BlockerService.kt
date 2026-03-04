@@ -58,15 +58,28 @@ class BlockerService : AccessibilityService() {
         if (isCooldownActive) return
 
         val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isWhitelistMode = prefs.getBoolean("is_whitelist_mode", false)
+        
         val blockedApps     = prefs.getStringSet(KEY_APPS, emptySet()) ?: emptySet()
+        val whitelistApps   = prefs.getStringSet("whitelist_apps", emptySet()) ?: emptySet()
         val blockedWebsites = prefs.getStringSet(KEY_WEBSITES, emptySet()) ?: emptySet()
         val blockedKeywords = prefs.getStringSet(KEY_KEYWORDS, emptySet()) ?: emptySet()
 
-        // RULE 1: Block social media apps instantly
-        if (blockedApps.contains(packageName)) {
-            recordBlock(packageName)
-            launchMotivationScreen()
-            return
+        // ── WHITELIST MODE (Includes Study Session) ──
+        if (isWhitelistMode) {
+            // Block everything EXCEPT whitelist apps and system exemptions
+            if (!whitelistApps.contains(packageName) && !systemExemptions.contains(packageName)) {
+                recordBlock(packageName)
+                launchMotivationScreen()
+                return
+            }
+        } else {
+            // ── NORMAL BLOCK MODE ──
+            if (blockedApps.contains(packageName)) {
+                recordBlock(packageName)
+                launchMotivationScreen()
+                return
+            }
         }
 
         // RULE 2: Deep-scan browsers for URLs + keywords
