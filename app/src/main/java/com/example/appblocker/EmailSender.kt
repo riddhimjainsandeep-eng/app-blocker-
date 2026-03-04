@@ -24,7 +24,7 @@ object EmailSender {
     // Normal passwords are blocked by Gmail for SMTP. Generate one at:
     // Google Account → Security → 2-Step Verification → App Passwords
     private const val SENDER_EMAIL   = "appblocker05@gmail.com"
-    private const val APP_PASSWORD    = "PASTE_APP_PASSWORD_HERE"  // 16 chars, no spaces
+    private const val APP_PASSWORD    = "bmsufyhnfktpfthf"  // Google App Password (16 chars)
     private const val RECEIVER_EMAIL  = "riddhimjainsandeep@gmail.com"
 
     fun sendReport(subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
