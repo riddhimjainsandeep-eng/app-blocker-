@@ -60,6 +60,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnSendReport).setOnClickListener {
             sendReportNow()
         }
+        // Stats screen
+        findViewById<Button>(R.id.btnViewStats).setOnClickListener {
+            startActivity(Intent(this, StatsActivity::class.java))
+        }
     }
 
     // ── Seed defaults on very first install ──────────────────────────────────

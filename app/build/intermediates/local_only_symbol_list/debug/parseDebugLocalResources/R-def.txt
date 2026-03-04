@@ -13,6 +13,7 @@ id tvPackageName
 layout activity_main
 layout activity_motivation
 layout item_app_picker
+mipmap ic_launcher
 string app_name
 style BlockerButton
 style BlockerDialog

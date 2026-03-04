@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-44:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-44:12
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-50:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-50:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-4\ac02b4820c459a6ba97ebca5b726e65e\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\riddh\.gradle\caches\transforms-4\f14c56c5154bffd1a7bd9c61d53931ac\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-4\ce7f732c23b0b64f1a267a079e0f2d7c\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
@@ -73,8 +73,8 @@ ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:7:5-8:53
 	android:name
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:7:22-74
 application
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-42:19
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-42:19
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-48:19
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-48:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-4\ac02b4820c459a6ba97ebca5b726e65e\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-4\ac02b4820c459a6ba97ebca5b726e65e\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-4\ce7f732c23b0b64f1a267a079e0f2d7c\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -100,57 +100,67 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\e930468465b54afd81f1282a539aca0b\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:12:9-41
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:14:9-41
+	android:roundIcon
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:13:9-48
+	android:icon
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:12:9-43
 	android:allowBackup
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:11:9-36
 	android:theme
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:13:9-48
-activity#com.example.appblocker.MainActivity
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:15:9-22:20
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:15:9-48
+activity#com.example.appblocker.SetupActivity
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:17:9-24:20
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:17:13-36
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:13-36
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:16:13-41
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:18:13-42
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:18:13-21:29
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:13-23:29
 action#android.intent.action.MAIN
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:17-69
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:17-69
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:25-66
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:17-77
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:22:17-77
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:27-74
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:22:27-74
+activity#com.example.appblocker.MainActivity
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:26:9-28:40
+	android:exported
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:28:13-37
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:27:13-41
 activity#com.example.appblocker.MotivationActivity
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:24:9-27:47
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:30:9-33:47
 	android:launchMode
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:27:13-44
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:33:13-44
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:26:13-37
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:32:13-37
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:25:13-47
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:31:13-47
 service#com.example.appblocker.BlockerService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:29:9-40:19
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:35:9-46:19
 	android:label
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:31:13-45
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:37:13-45
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:33:13-37
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:39:13-37
 	android:permission
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:32:13-79
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:38:13-79
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:30:13-43
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:36:13-43
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:34:13-36:29
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:40:13-42:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:35:17-92
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:41:17-92
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:35:25-89
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:41:25-89
 meta-data#android.accessibilityservice
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:37:13-39:72
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:43:13-45:72
 	android:resource
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:39:17-69
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:45:17-69
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:38:17-60
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:44:17-60
 uses-sdk
 INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml

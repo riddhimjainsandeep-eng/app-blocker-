@@ -27,11 +27,13 @@
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
         android:debuggable="true"
         android:extractNativeLibs="false"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher"
         android:testOnly="true"
         android:theme="@style/Theme.AppBlocker" >
         <activity
-            android:name="com.example.appblocker.MainActivity"
+            android:name="com.example.appblocker.SetupActivity"
             android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,6 +41,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.appblocker.MainActivity"
+            android:exported="false" />
         <activity
             android:name="com.example.appblocker.MotivationActivity"
             android:exported="false"
