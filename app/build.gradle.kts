@@ -48,4 +48,7 @@ dependencies {
     // JavaMail for SMTP email sending
     implementation("com.sun.mail:android-mail:1.6.7")
     implementation("com.sun.mail:android-activation:1.6.7")
+
+    // WorkManager for weekly background scheduling
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }

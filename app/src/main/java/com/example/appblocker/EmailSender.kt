@@ -52,7 +52,7 @@ object EmailSender {
                     setFrom(InternetAddress(SENDER_EMAIL, "Study Sanctum"))
                     setRecipients(Message.RecipientType.TO, InternetAddress.parse(RECEIVER_EMAIL))
                     setSubject(subject)
-                    setText(body)
+                    setContent(body, "text/html; charset=utf-8")   // ← HTML format
                 }
 
                 Transport.send(message)

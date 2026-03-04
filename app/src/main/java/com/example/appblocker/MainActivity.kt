@@ -2,9 +2,7 @@ package com.example.appblocker
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
 import android.text.InputType
@@ -14,8 +12,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import java.text.SimpleDateFormat
-import java.util.*
+import androidx.work.*
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         seedDefaultsIfNeeded()
+        WeeklyReportWorker.scheduleAll(this)   // daily + Sunday + last day of month
 
         findViewById<Button>(R.id.btnEnableService).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
@@ -67,8 +66,42 @@ class MainActivity : AppCompatActivity() {
             showAddDialog("Block a Keyword", "e.g. reels", KEY_KEYWORDS)
         }
 
+        // Manual "Send now" button — reuses the same worker logic
         findViewById<Button>(R.id.btnSendReport).setOnClickListener {
-            sendWeeklyReport()
+            sendReportNow()
+        }
+    }
+
+    // Schedule weekly report every 7 days via WorkManager (survives reboots)
+    private fun scheduleWeeklyReport() {
+        val request = PeriodicWorkRequestBuilder<WeeklyReportWorker>(7, TimeUnit.DAYS)
+            .setConstraints(
+                Constraints.Builder()
+                    .setRequiredNetworkType(NetworkType.CONNECTED)
+                    .build()
+            )
+            .addTag(WeeklyReportWorker.WORK_TAG)
+            .build()
+
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            WeeklyReportWorker.WORK_TAG,
+            ExistingPeriodicWorkPolicy.KEEP,   // Don't reset timer if already scheduled
+            request
+        )
+    }
+
+    // Manual send — builds the HTML report and fires it immediately
+    private fun sendReportNow() {
+        Toast.makeText(this, "Sending report…", Toast.LENGTH_SHORT).show()
+        val (subject, body) = WeeklyReportWorker.buildReport(this)
+        EmailSender.sendReport(subject, body) { success, error ->
+            runOnUiThread {
+                if (success) {
+                    Toast.makeText(this, "✅ Report sent!", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "❌ Failed: $error", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 
