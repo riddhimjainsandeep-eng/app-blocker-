@@ -3084,6 +3084,7 @@ id btnAddApp
 id btnAddKeyword
 id btnAddWebsite
 id btnBackToStudy
+id btnCheckUpdate
 id btnEnableService
 id btnProtectUninstall
 id btnSendReport

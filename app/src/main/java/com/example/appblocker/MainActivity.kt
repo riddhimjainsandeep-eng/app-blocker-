@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnProtectUninstall).setOnClickListener {
             activateDeviceAdmin()
         }
+        // Update check
+        findViewById<Button>(R.id.btnCheckUpdate).setOnClickListener {
+            checkForUpdates()
+        }
     }
 
     private fun activateDeviceAdmin() {
@@ -102,7 +106,7 @@ class MainActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Sending report to $userEmail…", Toast.LENGTH_SHORT).show()
         val (subject, body) = WeeklyReportWorker.buildReport(this, WeeklyReportWorker.TYPE_WEEKLY)
-        EmailSender.sendReport(subject, body) { success, error ->
+        EmailSender.sendReport(userEmail, subject, body) { success, error ->
             runOnUiThread {
                 if (success) {
                     Toast.makeText(this, "✅ Report sent!", Toast.LENGTH_LONG).show()
@@ -181,5 +185,53 @@ class MainActivity : AppCompatActivity() {
         val current = prefs.getStringSet(key, mutableSetOf())!!.toMutableSet()
         current.add(value)
         prefs.edit().putStringSet(key, current).apply()
+    }
+
+    // ── Check for updates ────────────────────────────────────────────────────
+    private fun checkForUpdates() {
+        // Link to the version.json on your GitHub main branch
+        val updateUrl = "https://raw.githubusercontent.com/riddhimjainsandeep-eng/app-blocker-/main/version.json"
+        Toast.makeText(this, "Checking for updates...", Toast.LENGTH_SHORT).show()
+
+        Thread {
+            try {
+                val url = java.net.URL(updateUrl)
+                val connection = url.openConnection() as java.net.HttpURLConnection
+                val text = connection.inputStream.bufferedReader().use { it.readText() }
+                val json = org.json.JSONObject(text)
+
+                val latestCode = json.getInt("versionCode")
+                val latestName = json.getString("versionName")
+                val apkUrl     = json.getString("apkUrl")
+                val notes      = json.optString("notes", "New version available!")
+
+                val currentCode = if (android.os.Build.VERSION.SDK_INT >= 28) {
+                    packageManager.getPackageInfo(packageName, 0).longVersionCode.toInt()
+                } else {
+                    @Suppress("DEPRECATION")
+                    packageManager.getPackageInfo(packageName, 0).versionCode
+                }
+
+                runOnUiThread {
+                    if (latestCode > currentCode) {
+                        AlertDialog.Builder(this, R.style.BlockerDialog)
+                            .setTitle("Update Available: $latestName")
+                            .setMessage("$notes\n\nWould you like to download the new version?")
+                            .setPositiveButton("Download APK") { _, _ ->
+                                val intent = Intent(Intent.ACTION_VIEW, android.net.Uri.parse(apkUrl))
+                                startActivity(intent)
+                            }
+                            .setNegativeButton("Later", null)
+                            .show()
+                    } else {
+                        Toast.makeText(this, "You're up to date! (v$latestName)", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: Exception) {
+                runOnUiThread {
+                    Toast.makeText(this, "Update check failed. Note: JSON must be on GitHub.", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }.start()
     }
 }

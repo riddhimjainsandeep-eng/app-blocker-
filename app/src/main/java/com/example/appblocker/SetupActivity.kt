@@ -104,7 +104,7 @@ class SetupActivity : AppCompatActivity() {
 
         Toast.makeText(this, "Sending code to $email…", Toast.LENGTH_SHORT).show()
 
-        EmailSender.sendReport(subject, html) { success, error ->
+        EmailSender.sendReport(email, subject, html) { success, error ->
             runOnUiThread {
                 if (success) {
                     Toast.makeText(this, "Code sent! Check your inbox.", Toast.LENGTH_LONG).show()

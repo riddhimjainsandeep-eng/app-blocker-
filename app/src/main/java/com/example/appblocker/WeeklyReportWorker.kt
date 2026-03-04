@@ -16,9 +16,12 @@ class WeeklyReportWorker(context: Context, params: WorkerParameters) : Worker(co
         val type = inputData.getString(KEY_REPORT_TYPE) ?: TYPE_DAILY
         return try {
             val (subject, body) = buildReport(applicationContext, type)
+            val userEmail = applicationContext.getSharedPreferences(SetupActivity.PREFS_SETUP, Context.MODE_PRIVATE)
+                .getString(SetupActivity.KEY_USER_EMAIL, "riddhimjainsandeep@gmail.com") ?: "riddhimjainsandeep@gmail.com"
+
             var success = false
             val latch = java.util.concurrent.CountDownLatch(1)
-            EmailSender.sendReport(subject, body) { ok, _ ->
+            EmailSender.sendReport(userEmail, subject, body) { ok, _ ->
                 success = ok
                 latch.countDown()
             }

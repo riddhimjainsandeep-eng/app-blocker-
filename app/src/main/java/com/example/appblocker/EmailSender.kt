@@ -25,9 +25,8 @@ object EmailSender {
     // Google Account → Security → 2-Step Verification → App Passwords
     private const val SENDER_EMAIL   = "appblocker05@gmail.com"
     private const val APP_PASSWORD    = "bmsufyhnfktpfthf"  // Google App Password (16 chars)
-    private const val RECEIVER_EMAIL  = "riddhimjainsandeep@gmail.com"
 
-    fun sendReport(subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
+    fun sendReport(receiverEmail: String, subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
         // Must run on a background thread — network operations crash on main thread
         Thread {
             try {
@@ -50,7 +49,7 @@ object EmailSender {
 
                 val message = MimeMessage(session).apply {
                     setFrom(InternetAddress(SENDER_EMAIL, "Study Sanctum"))
-                    setRecipients(Message.RecipientType.TO, InternetAddress.parse(RECEIVER_EMAIL))
+                    setRecipients(Message.RecipientType.TO, InternetAddress.parse(receiverEmail))
                     setSubject(subject)
                     setContent(body, "text/html; charset=utf-8")   // ← HTML format
                 }
