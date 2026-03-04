@@ -1,6 +1,6 @@
 {
-  "versionCode": 3,
-  "versionName": "1.5",
-  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/v1.5/StudySanctum_v1.5.apk",
-  "releaseNotes": "User Profile system, personalized Focus Center, and improved onboarding."
+  "versionCode": 4,
+  "versionName": "1.6-test",
+  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/v1.6-test/StudySanctum_v1.5.apk",
+  "releaseNotes": "Testing the OTA update mechanism."
 }
