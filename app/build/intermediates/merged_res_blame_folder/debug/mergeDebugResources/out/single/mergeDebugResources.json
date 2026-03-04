@@ -1,15 +1,15 @@
 [
     {
-        "merged": "com.example.appblocker.app-debug-31:/layout_item_app_picker.xml.flat",
-        "source": "com.example.appblocker.app-main-33:/layout/item_app_picker.xml"
-    },
-    {
         "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-31:\\layout_activity_motivation.xml.flat",
         "source": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-main-33:\\layout\\activity_motivation.xml"
     },
     {
         "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-31:\\drawable_card_background.xml.flat",
         "source": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-main-33:\\drawable\\card_background.xml"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-31:\\layout_item_app_picker.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-main-33:\\layout\\item_app_picker.xml"
     },
     {
         "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-31:\\layout_activity_main.xml.flat",

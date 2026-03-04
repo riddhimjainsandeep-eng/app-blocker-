@@ -91,8 +91,12 @@ class MainActivity : AppCompatActivity() {
     // -----------------------------------------------------------------------
     private fun showAppPicker() {
         val pm = packageManager
+
+        // Use getLaunchIntentForPackage so we get ALL apps with a launcher icon
+        // (including pre-installed ones like Instagram, YouTube, etc.)
         val allApps = pm.getInstalledApplications(PackageManager.GET_META_DATA)
-            .filter { (it.flags and ApplicationInfo.FLAG_SYSTEM) == 0 }
+            .filter { pm.getLaunchIntentForPackage(it.packageName) != null }
+            .filter { it.packageName != "com.example.appblocker" } // hide ourselves
             .sortedBy { pm.getApplicationLabel(it).toString().lowercase() }
 
         val appNames = allApps.map { pm.getApplicationLabel(it).toString() }.toTypedArray()
@@ -245,17 +249,17 @@ Keep going. Your CA/ISC exams are worth more than a 15-second reel.
 — Study Sanctum Focus Guard
         """.trimIndent()
 
-        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
-            data = Uri.parse("mailto:")
-            putExtra(Intent.EXTRA_EMAIL, arrayOf(REPORT_EMAIL))
-            putExtra(Intent.EXTRA_SUBJECT, subject)
-            putExtra(Intent.EXTRA_TEXT, body)
-        }
+        // Send directly via SMTP — no app picker, goes straight to inbox
+        Toast.makeText(this, "Sending report…", Toast.LENGTH_SHORT).show()
 
-        if (emailIntent.resolveActivity(packageManager) != null) {
-            startActivity(Intent.createChooser(emailIntent, "Send Report via…"))
-        } else {
-            Toast.makeText(this, "No email app found on this device.", Toast.LENGTH_LONG).show()
+        EmailSender.sendReport(subject, body) { success, error ->
+            runOnUiThread {
+                if (success) {
+                    Toast.makeText(this, "✅ Report sent to $REPORT_EMAIL", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(this, "❌ Failed: $error", Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

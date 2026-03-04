@@ -3080,6 +3080,7 @@ int id btnAddKeyword 0x7f0801c3
 int id btnAddWebsite 0x7f0801c4
 int id btnBackToStudy 0x7f080058
 int id btnEnableService 0x7f0801c6
+int id btnSendReport 0x7f0801cd
 int id buttonPanel 0x7f080059
 int id cancel_button 0x7f08005a
 int id center 0x7f08005b
@@ -3426,10 +3427,7 @@ int id transition_scene_layoutid_cache 0x7f0801ae
 int id transition_transform 0x7f0801af
 int id triangle 0x7f0801b0
 int id tvAppName 0x7f0801cb
-int id tvAppsList 0x7f0801c7
-int id tvKeywordsList 0x7f0801c8
 int id tvPackageName 0x7f0801cc
-int id tvWebsitesList 0x7f0801c9
 int id unchecked 0x7f0801b1
 int id uniform 0x7f0801b2
 int id unlabeled 0x7f0801b3
