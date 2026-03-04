@@ -197,6 +197,18 @@ class MainActivity : AppCompatActivity() {
             try {
                 val url = java.net.URL(updateUrl)
                 val connection = url.openConnection() as java.net.HttpURLConnection
+                
+                if (connection.responseCode == 404) {
+                    runOnUiThread {
+                        AlertDialog.Builder(this, R.style.BlockerDialog)
+                            .setTitle("Update Check Failed (404)")
+                            .setMessage("The version file was not found on GitHub.\n\nNote: If your repository is PRIVATE, this check will fail. Make it PUBLIC on GitHub to enable auto-updates.")
+                            .setPositiveButton("OK", null)
+                            .show()
+                    }
+                    return@Thread
+                }
+
                 val text = connection.inputStream.bufferedReader().use { it.readText() }
                 val json = org.json.JSONObject(text)
 
