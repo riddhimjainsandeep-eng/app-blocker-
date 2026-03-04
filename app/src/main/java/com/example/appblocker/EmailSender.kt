@@ -20,9 +20,11 @@ import javax.mail.internet.MimeMessage
  */
 object EmailSender {
 
-    // ⚠️  Replace APP_PASSWORD with the 16-character App Password from Google Account settings
+    // ⚠️  This must be a GOOGLE APP PASSWORD (16 chars), NOT your normal Gmail password.
+    // Normal passwords are blocked by Gmail for SMTP. Generate one at:
+    // Google Account → Security → 2-Step Verification → App Passwords
     private const val SENDER_EMAIL   = "appblocker05@gmail.com"
-    private const val APP_PASSWORD    = "YOUR_APP_PASSWORD_HERE"   // <-- paste here after generating
+    private const val APP_PASSWORD    = "PASTE_APP_PASSWORD_HERE"  // 16 chars, no spaces
     private const val RECEIVER_EMAIL  = "riddhimjainsandeep@gmail.com"
 
     fun sendReport(subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
