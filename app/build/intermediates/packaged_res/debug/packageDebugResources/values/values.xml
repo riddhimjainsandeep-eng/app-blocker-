@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Focus Blocker</string>
+    <string name="app_name">Focus Guard</string>
+    <string name="device_admin_description">Enabling this prevents accidental or impulsive uninstallation of Focus Guard. To uninstall, you must deactivate this first.</string>
     <style name="BlockerButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">#C8A2F8</item>
     </style>

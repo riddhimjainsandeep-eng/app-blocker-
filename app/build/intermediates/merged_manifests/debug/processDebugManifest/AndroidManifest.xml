@@ -30,7 +30,6 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
-        android:testOnly="true"
         android:theme="@style/Theme.AppBlocker" >
         <activity
             android:name="com.example.appblocker.SetupActivity"
@@ -65,6 +64,22 @@
                 android:name="android.accessibilityservice"
                 android:resource="@xml/accessibility_service_config" />
         </service>
+
+        <!-- Device Admin for Anti-Uninstall Friction -->
+        <receiver
+            android:name="com.example.appblocker.AppBlockerAdminReceiver"
+            android:description="@string/device_admin_description"
+            android:exported="true"
+            android:label="Focus Guard Protection"
+            android:permission="android.permission.BIND_DEVICE_ADMIN" >
+            <meta-data
+                android:name="android.app.device_admin"
+                android:resource="@xml/device_admin" />
+
+            <intent-filter>
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
+            </intent-filter>
+        </receiver>
 
         <provider
             android:name="androidx.startup.InitializationProvider"

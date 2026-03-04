@@ -158,10 +158,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:text="📧  Send My Weekly Report"
-                android:textColor="#0D0D1A"
+                android:textColor="#C8A2F8"
                 android:textSize="15sp"
                 android:textStyle="bold"
-                android:backgroundTint="#A2E8F8"
+                android:backgroundTint="#1A1A2E"
+                android:stateListAnimator="@null"
+                android:layout_marginBottom="10dp" />
+
+            <Button
+                android:id="@+id/btnProtectUninstall"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:text="🛡️  Protect Against Uninstall"
+                android:textColor="#AADDAA"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:backgroundTint="#0A1A0A"
                 android:stateListAnimator="@null" />
         </LinearLayout>
 

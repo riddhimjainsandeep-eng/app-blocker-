@@ -3085,6 +3085,7 @@ id btnAddKeyword
 id btnAddWebsite
 id btnBackToStudy
 id btnEnableService
+id btnProtectUninstall
 id btnSendReport
 id btnViewStats
 id buttonPanel
@@ -3696,6 +3697,7 @@ string character_counter_content_description
 string character_counter_overflowed_content_description
 string character_counter_pattern
 string clear_text_end_icon_content_description
+string device_admin_description
 string error_a11y_label
 string error_icon_content_description
 string exposed_dropdown_menu_content_description

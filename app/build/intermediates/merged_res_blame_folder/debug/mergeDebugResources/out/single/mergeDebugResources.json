@@ -4,10 +4,6 @@
         "source": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-main-40:\\mipmap-xxhdpi\\ic_launcher.png"
     },
     {
-        "merged": "com.example.appblocker.app-debug-38:/xml_device_admin.xml.flat",
-        "source": "com.example.appblocker.app-main-40:/xml/device_admin.xml"
-    },
-    {
         "merged": "com.example.appblocker.app-debug-38:/layout_activity_main.xml.flat",
         "source": "com.example.appblocker.app-main-40:/layout/activity_main.xml"
     },
@@ -22,6 +18,10 @@
     {
         "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-38:\\mipmap-xhdpi_ic_launcher.png.flat",
         "source": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-main-40:\\mipmap-xhdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-38:\\xml_device_admin.xml.flat",
+        "source": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-main-40:\\xml\\device_admin.xml"
     },
     {
         "merged": "C:\\Users\\riddh\\.gradle\\daemon\\8.7\\com.example.appblocker.app-debug-38:\\layout_activity_main.xml.flat",
