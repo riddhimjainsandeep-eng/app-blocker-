@@ -1,6 +1,6 @@
 {
   "versionCode": 6,
-  "versionName": "2.1",
-  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/v2.1/StudySanctum_v2.1.apk",
-  "releaseNotes": "New Lovable UI: deep navy theme, emerald accent, glass cards, number keypad challenge screen."
+  "versionName": "2.1.1",
+  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/v2.1.1/StudySanctum_v2.1.1.apk",
+  "releaseNotes": "OTA Bootstrap Fix: Bypasses cached corrupted file from v2.0."
 }
