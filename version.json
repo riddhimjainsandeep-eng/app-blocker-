@@ -1,6 +1,6 @@
 {
-  "versionCode": 4,
-  "versionName": "1.6-test",
-  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/Versions/StudySanctum_v1.5.apk",
-  "releaseNotes": "User Profile system, personalized Focus Center, guided onboarding, and in-app OTA updates."
+  "versionCode": 5,
+  "versionName": "2.0",
+  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/v2.0/StudySanctum_v2.0.apk",
+  "releaseNotes": "Strict Mode, Math Challenge unlock, Enhanced browser filtering, Productivity Ratio."
 }
