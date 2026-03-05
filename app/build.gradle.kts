@@ -13,8 +13,8 @@ android {
         applicationId = "com.example.appblocker"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.1"
+        versionCode = 7
+        versionName = "2.2"
 
         // Inject Gmail App Password from local.properties
         val properties = Properties()
@@ -24,6 +24,9 @@ android {
         }
         val pass = properties.getProperty("GMAIL_APP_PASSWORD") ?: ""
         buildConfigField("String", "GMAIL_APP_PASSWORD", "\"$pass\"")
+        
+        val geminiKey = properties.getProperty("GEMINI_API_KEY") ?: ""
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
     }
 
     buildFeatures {
@@ -66,4 +69,7 @@ dependencies {
 
     // WorkManager for weekly background scheduling
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    
+    // Google Gemini API (Flash-Lite for Logic Puzzles)
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 }
