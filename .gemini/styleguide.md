@@ -1,0 +1,1 @@
+Always check for hardcoded secrets. Ensure all Intents for blocking activities use FLAG_ACTIVITY_CLEAR_TASK. Flag any disk I/O occurring inside the Accessibility Service's onAccessibilityEvent loop.
