@@ -16,15 +16,18 @@ android {
         versionCode = 7
         versionName = "2.2"
 
-        // Inject Gmail App Password from local.properties
+        // Inject SMTP Credentials from local.properties
         val properties = Properties()
         val file = project.rootProject.file("local.properties")
         if (file.exists()) {
             file.inputStream().use { properties.load(it) }
         }
-        val pass = properties.getProperty("GMAIL_APP_PASSWORD") ?: ""
-        buildConfigField("String", "GMAIL_APP_PASSWORD", "\"$pass\"")
         
+        val smtpUser = properties.getProperty("SMTP_USER") ?: ""
+        buildConfigField("String", "SMTP_USER", "\"$smtpUser\"")
+
+        val smtpPass = properties.getProperty("SMTP_PASS") ?: ""
+        buildConfigField("String", "SMTP_PASS", "\"$smtpPass\"")
         val geminiKey = properties.getProperty("GEMINI_API_KEY") ?: ""
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
     }

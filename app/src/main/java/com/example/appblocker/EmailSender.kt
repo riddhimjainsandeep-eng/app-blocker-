@@ -21,8 +21,8 @@ import javax.mail.internet.MimeMessage
  */
 object EmailSender {
 
-    private const val SENDER_EMAIL   = "appblocker05@gmail.com"
-    private val APP_PASSWORD         = BuildConfig.GMAIL_APP_PASSWORD
+    private val SENDER_EMAIL = BuildConfig.SMTP_USER
+    private val APP_PASSWORD = BuildConfig.SMTP_PASS
 
     fun sendReport(receiverEmail: String, subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
         // Must run on a background thread — network operations crash on main thread

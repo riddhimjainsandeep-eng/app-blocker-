@@ -70,7 +70,7 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
     // In-memory cache to prevent disk reads on every AccessibilityEvent (Performance fix)
     private var isStrictMode = false
     private var isMentalFriction = true
-    private var cachedBlockedApps: Set<String> = emptySet()
+    private var cachedBlockedApps: HashSet<String> = hashSetOf()
     private var cachedBlockedWebsites: Set<String> = emptySet()
     private var cachedBlockedKeywords: Set<String> = emptySet()
     private lateinit var prefs: SharedPreferences
@@ -96,7 +96,7 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
     private fun loadCachedPrefs() {
         isStrictMode          = prefs.getBoolean("is_strict_mode", false)
         isMentalFriction      = prefs.getBoolean("is_mental_friction", true)
-        cachedBlockedApps     = prefs.getStringSet(KEY_APPS, emptySet()) ?: emptySet()
+        cachedBlockedApps     = prefs.getStringSet(KEY_APPS, emptySet())?.toHashSet() ?: hashSetOf()
         cachedBlockedWebsites = prefs.getStringSet(KEY_WEBSITES, emptySet()) ?: emptySet()
         cachedBlockedKeywords = prefs.getStringSet(KEY_KEYWORDS, emptySet()) ?: emptySet()
     }
@@ -105,9 +105,7 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
         if (event == null) return
 
         val eventType = event.eventType
-        if (eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED &&
-            eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
-        ) return
+        if (eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) return
 
         val packageName = event.packageName?.toString() ?: return
 
