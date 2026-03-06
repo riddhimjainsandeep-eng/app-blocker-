@@ -67,11 +67,10 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
     private var lastFgStartMs = 0L
 
     // In-memory cache to prevent disk reads on every AccessibilityEvent (Performance fix)
-    private var isWhitelistMode = false
+    // In-memory cache to prevent disk reads on every AccessibilityEvent (Performance fix)
     private var isStrictMode = false
     private var isMentalFriction = true
     private var cachedBlockedApps: Set<String> = emptySet()
-    private var cachedWhitelistApps: Set<String> = emptySet()
     private var cachedBlockedWebsites: Set<String> = emptySet()
     private var cachedBlockedKeywords: Set<String> = emptySet()
     private lateinit var prefs: SharedPreferences
@@ -95,11 +94,9 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
     }
 
     private fun loadCachedPrefs() {
-        isWhitelistMode       = prefs.getBoolean("is_whitelist_mode", false)
         isStrictMode          = prefs.getBoolean("is_strict_mode", false)
         isMentalFriction      = prefs.getBoolean("is_mental_friction", true)
         cachedBlockedApps     = prefs.getStringSet(KEY_APPS, emptySet()) ?: emptySet()
-        cachedWhitelistApps   = prefs.getStringSet("whitelist_apps", emptySet()) ?: emptySet()
         cachedBlockedWebsites = prefs.getStringSet(KEY_WEBSITES, emptySet()) ?: emptySet()
         cachedBlockedKeywords = prefs.getStringSet(KEY_KEYWORDS, emptySet()) ?: emptySet()
     }
@@ -114,10 +111,24 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
 
         val packageName = event.packageName?.toString() ?: return
 
-        // ── HARDCODED SETTINGS OVERRIDE ──
-        if (packageName == "com.android.settings") {
+        // ── HARDCODED UNINSTALL / SETTINGS OVERRIDE ──
+        if (packageName == "com.android.settings" || 
+            packageName == "com.google.android.packageinstaller" || 
+            packageName == "com.samsung.android.packageinstaller" ||
+            packageName == "com.android.packageinstaller"
+        ) {
             launchMotivationScreen()
             return
+        }
+
+        // ── DEVICE ADMIN DEACTIVATION PROTECTION ──
+        if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+            val className = event.className?.toString() ?: ""
+            // If they reach the DeviceAdminAdd screen to untick the admin box
+            if (className.contains("DeviceAdminAdd")) {
+                launchMotivationScreen()
+                return
+            }
         }
 
         // Always exempt hard system apps
@@ -130,18 +141,6 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
         // ── Feature 4: Track foreground time ──
         if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
             trackForegroundTime(packageName)
-        }
-
-        // ── WHITELIST MODE ──
-        if (isWhitelistMode) {
-            val effectiveWhitelist = cachedWhitelistApps + hardExemptions
-            if (!effectiveWhitelist.contains(packageName) || strictExtras.contains(packageName)) {
-                if (ChallengeActivity.isExempt(this, packageName)) return
-                recordBlock(packageName)
-                launchChallengeScreen(packageName)
-                return
-            }
-            return
         }
 
         // ── NORMAL BLOCK MODE ──
@@ -264,7 +263,8 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
         isCooldownActive = true
         val intent = Intent(this, ChallengeActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             putExtra(ChallengeActivity.EXTRA_PACKAGE, blockedPackage)
         }
         startActivity(intent)
