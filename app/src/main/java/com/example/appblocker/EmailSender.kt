@@ -21,8 +21,8 @@ import javax.mail.internet.MimeMessage
  */
 object EmailSender {
 
-    private val SENDER_EMAIL = BuildConfig.SMTP_USER
-    private val APP_PASSWORD = BuildConfig.SMTP_PASS
+    private val SENDER_EMAIL = BuildConfig.SMTP_USERNAME
+    private val APP_PASSWORD = BuildConfig.SMTP_PASSWORD
 
     fun sendReport(receiverEmail: String, subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
         // Must run on a background thread — network operations crash on main thread

@@ -23,11 +23,11 @@ android {
             file.inputStream().use { properties.load(it) }
         }
         
-        val smtpUser = properties.getProperty("SMTP_USER") ?: ""
-        buildConfigField("String", "SMTP_USER", "\"$smtpUser\"")
+        val smtpUser = properties.getProperty("SMTP_USERNAME") ?: ""
+        buildConfigField("String", "SMTP_USERNAME", "\"$smtpUser\"")
 
-        val smtpPass = properties.getProperty("SMTP_PASS") ?: ""
-        buildConfigField("String", "SMTP_PASS", "\"$smtpPass\"")
+        val smtpPass = properties.getProperty("SMTP_PASSWORD") ?: ""
+        buildConfigField("String", "SMTP_PASSWORD", "\"$smtpPass\"")
         val geminiKey = properties.getProperty("GEMINI_API_KEY") ?: ""
         buildConfigField("String", "GEMINI_API_KEY", "\"$geminiKey\"")
     }

@@ -204,9 +204,9 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
     }
 
     fun getProductivityCategory(pkg: String): String = when {
-        PRODUCTIVE_APPS.contains(pkg)   -> "productive"
-        DISTRACTION_APPS.contains(pkg)  -> "distraction"
-        else                            -> "neutral"
+        PRODUCTIVE_APPS.contains(pkg)   -> "STUDY"
+        DISTRACTION_APPS.contains(pkg)  -> "SOCIAL"
+        else                            -> "SYSTEM"
     }
 
     private fun recordBlock(packageName: String) {
@@ -260,8 +260,7 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
         if (isCooldownActive) return
         isCooldownActive = true
         val intent = Intent(this, ChallengeActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             putExtra(ChallengeActivity.EXTRA_PACKAGE, blockedPackage)
         }
@@ -273,8 +272,7 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
         if (isCooldownActive) return
         isCooldownActive = true
         val intent = Intent(this, MotivationActivity::class.java).apply {
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
             addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         }
         startActivity(intent)
