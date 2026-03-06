@@ -25,6 +25,7 @@ object EmailSender {
     private val APP_PASSWORD = BuildConfig.SMTP_PASSWORD
 
     fun sendReport(receiverEmail: String, subject: String, body: String, onResult: (success: Boolean, error: String?) -> Unit) {
+        android.util.Log.d("SecurityAudit", "EmailSender invoked.")
         // Must run on a background thread — network operations crash on main thread
         Thread {
             try {

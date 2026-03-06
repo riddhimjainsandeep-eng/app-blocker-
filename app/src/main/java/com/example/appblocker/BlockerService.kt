@@ -102,6 +102,7 @@ class BlockerService : AccessibilityService(), SharedPreferences.OnSharedPrefere
     }
 
     override fun onAccessibilityEvent(event: AccessibilityEvent?) {
+        android.util.Log.d("SecurityAudit", "BlockerService accessibility event received.")
         if (event == null) return
 
         val eventType = event.eventType

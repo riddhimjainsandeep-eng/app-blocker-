@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        android.util.Log.d("SecurityAudit", "MainActivity created.")
         setContentView(R.layout.activity_main)
 
         seedDefaultsIfNeeded()
