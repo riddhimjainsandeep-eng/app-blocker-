@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0B0F1A"
+    android:background="@color/ss_background"
     android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="48dp"
-        android:paddingBottom="96dp">
+        android:padding="20dp"
+        android:paddingBottom="48dp">
 
         <!-- ══ HEADER ═══════════════════════════════════════════════════════ -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="28dp">
+            android:layout_marginBottom="24dp">
 
-            <!-- Left: Avatar + Title -->
             <LinearLayout
                 android:id="@+id/headerLeft"
                 android:layout_width="wrap_content"
@@ -31,22 +29,25 @@
                 android:layout_alignParentStart="true"
                 android:layout_centerVertical="true">
 
-                <FrameLayout
+                <com.google.android.material.card.MaterialCardView
                     android:id="@+id/btnProfileAvatar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:layout_marginEnd="12dp">
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:layout_marginEnd="12dp"
+                    app:cardCornerRadius="22dp"
+                    app:cardBackgroundColor="@color/ss_primary_dim"
+                    app:strokeColor="@color/ss_primary"
+                    app:strokeWidth="1dp">
                     <TextView
                         android:id="@+id/tvInitials"
-                        android:layout_width="36dp"
-                        android:layout_height="36dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="U"
-                        android:textColor="#11C27A"
-                        android:textSize="13sp"
-                        android:textStyle="bold"
-                        android:background="@drawable/circle_avatar_bg" />
-                </FrameLayout>
+                        android:textColor="@color/ss_primary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -56,190 +57,218 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="StudySanctum"
-                        android:textColor="#EEF2F7"
-                        android:textSize="20sp"
+                        android:textColor="@color/ss_foreground"
+                        android:textSize="22sp"
                         android:textStyle="bold"
                         android:letterSpacing="-0.02" />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Distraction-Free Workspace"
-                        android:textColor="#5D7A99"
-                        android:textSize="11sp" />
+                        android:textColor="@color/ss_muted_fg"
+                        android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Right: Shield icon -->
-            <FrameLayout
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/headerShield"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/circle_avatar_bg">
+                app:cardCornerRadius="22dp"
+                app:cardBackgroundColor="@color/ss_card"
+                app:strokeColor="@color/ss_border"
+                app:strokeWidth="1dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="🔒"
-                    android:textSize="15sp" />
-            </FrameLayout>
+                    android:text="🛡️"
+                    android:textSize="18sp" />
+            </com.google.android.material.card.MaterialCardView>
         </RelativeLayout>
 
-        <!-- ══ CHECK FOR UPDATES BANNER ═══════════════════════════════════ -->
-        <LinearLayout
+        <!-- ══ UPDATE BANNER ════════════════════════════════════════════════ -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/glass_card"
-            android:padding="14dp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="20dp">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="🚀 New version available?"
-                android:textColor="#5D7A99"
-                android:textSize="12sp" />
-
-            <Button
-                android:id="@+id/btnCheckUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="32dp"
-                android:text="Check Now"
-                android:textColor="#0B0F1A"
-                android:textSize="11sp"
-                android:textStyle="bold"
-                android:backgroundTint="#11C27A"
-                android:stateListAnimator="@null"
-                android:paddingStart="14dp"
-                android:paddingEnd="14dp" />
-        </LinearLayout>
-
-        <!-- ══ TOGGLE CARDS ════════════════════════════════════════════════ -->
-        <!-- Strict Mode -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/glass_card"
-            android:padding="18dp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
-
-            <FrameLayout
-                android:id="@+id/iconStrictMode"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/icon_bg_muted"
-                android:layout_marginEnd="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="⚡"
-                    android:textSize="14sp" />
-            </FrameLayout>
-
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/ss_card"
+            app:strokeColor="@color/ss_border"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp">
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="16dp"
+                android:gravity="center_vertical">
+
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="Strict Mode"
-                    android:textColor="#EEF2F7"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-                <TextView
+                    android:layout_weight="1"
+                    android:text="🚀 New version available?"
+                    android:textColor="@color/ss_muted_fg"
+                    android:textSize="13sp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnCheckUpdate"
+                    style="@style/Widget.Material3.Button.TonalButton"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Zero tolerance for distractions"
-                    android:textColor="#5D7A99"
-                    android:textSize="11sp" />
+                    android:layout_height="36dp"
+                    android:text="Check Now"
+                    android:textSize="11sp"
+                    android:textColor="@color/ss_background"
+                    app:backgroundTint="@color/ss_primary"
+                    app:cornerRadius="8dp"
+                    android:paddingStart="12dp"
+                    android:paddingEnd="12dp" />
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <Switch
-                android:id="@+id/switchStrictMode"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:thumbTint="#EEF2F7"
-                android:trackTint="#1E2D3D" />
-        </LinearLayout>
-
-        <!-- Mental Friction Logic -->
-        <LinearLayout
+        <!-- ══ FOCUS MODE CONTROLS ════════════════════════════════════════ -->
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@drawable/glass_card"
-            android:padding="18dp"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="24dp">
-
-            <FrameLayout
-                android:id="@+id/iconMentalFriction"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:background="@drawable/icon_bg_info"
-                android:layout_marginEnd="12dp">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="🧠"
-                    android:textSize="14sp" />
-            </FrameLayout>
-
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/ss_card"
+            app:strokeColor="@color/ss_border"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp">
+            
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
+
+                <!-- Strict Mode -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Mental Friction Logic"
-                    android:textColor="#EEF2F7"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-                <TextView
-                    android:layout_width="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="12dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardBackgroundColor="@color/ss_muted"
+                        app:cardElevation="0dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="⚡"
+                            android:textSize="16sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Strict Mode"
+                            android:textColor="@color/ss_foreground"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Zero tolerance for distractions"
+                            android:textColor="@color/ss_muted_fg"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchStrictMode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ss_border"
+                    android:layout_marginStart="64dp" />
+
+                <!-- Mental Friction -->
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Solve puzzles to unlock apps"
-                    android:textColor="#5D7A99"
-                    android:textSize="11sp" />
+                    android:orientation="horizontal"
+                    android:padding="12dp"
+                    android:gravity="center_vertical">
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="12dp"
+                        app:cardCornerRadius="8dp"
+                        app:cardBackgroundColor="@color/ss_info_dim"
+                        app:cardElevation="0dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="🧠"
+                            android:textSize="16sp" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mental Friction"
+                            android:textColor="@color/ss_foreground"
+                            android:textSize="15sp"
+                            android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Solve puzzles to unlock apps"
+                            android:textColor="@color/ss_muted_fg"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/switchMentalFriction"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
             </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <Switch
-                android:id="@+id/switchMentalFriction"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:thumbTint="#EEF2F7"
-                android:trackTint="#1E2D3D" />
-        </LinearLayout>
-
-        <!-- ══ ACTIVE BLOCKS SECTION ══════════════════════════════════════ -->
+        <!-- ══ ACTIVE BLOCKS ════════════════════════════════════════════════ -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ACTIVE BLOCKS"
-            android:textColor="#5D7A99"
-            android:textSize="10sp"
+            android:textColor="@color/ss_muted_fg"
+            android:textSize="11sp"
             android:textStyle="bold"
-            android:letterSpacing="0.25"
-            android:layout_marginBottom="12dp" />
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="4dp" />
 
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:layout_marginBottom="28dp">
-
+            android:layout_marginBottom="24dp">
             <LinearLayout
                 android:id="@+id/blockedAppsRow"
                 android:layout_width="wrap_content"
@@ -248,110 +277,115 @@
                 android:gravity="center_vertical" />
         </HorizontalScrollView>
 
-        <!-- ══ MANAGEMENT SECTION ═════════════════════════════════════════ -->
+        <!-- ══ MANAGEMENT ══════════════════════════════════════════════════ -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="MANAGE"
-            android:textColor="#5D7A99"
-            android:textSize="10sp"
+            android:text="MANAGEMENT"
+            android:textColor="@color/ss_muted_fg"
+            android:textSize="11sp"
             android:textStyle="bold"
-            android:letterSpacing="0.25"
-            android:layout_marginBottom="12dp" />
+            android:letterSpacing="0.1"
+            android:layout_marginBottom="12dp"
+            android:layout_marginStart="4dp" />
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="@drawable/glass_card"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:layout_marginBottom="12dp">
-
-            <Button
-                android:id="@+id/btnEnableService"
+            android:layout_marginBottom="20dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/ss_card"
+            app:strokeColor="@color/ss_border"
+            app:strokeWidth="1dp"
+            app:cardElevation="0dp">
+            
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="⚡  Enable Focus Guard"
-                android:textColor="#EEF2F7"
-                android:textSize="14sp"
-                android:backgroundTint="@android:color/transparent"
-                android:stateListAnimator="@null"
-                android:gravity="start|center_vertical"
-                android:paddingStart="20dp" />
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#1E2D3D"
-                android:layout_marginStart="20dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnEnableService"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="⚡  Enable Focus Guard"
+                    android:textColor="@color/ss_foreground"
+                    android:textSize="15sp"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="16dp"
+                    app:iconPadding="16dp" />
 
-            <Button
-                android:id="@+id/btnAddApp"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="📱  Manage Blocked Apps"
-                android:textColor="#EEF2F7"
-                android:textSize="14sp"
-                android:backgroundTint="@android:color/transparent"
-                android:stateListAnimator="@null"
-                android:gravity="start|center_vertical"
-                android:paddingStart="20dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ss_border"
+                    android:layout_marginStart="16dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#1E2D3D"
-                android:layout_marginStart="20dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddApp"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="📱  Manage Blocked Apps"
+                    android:textColor="@color/ss_foreground"
+                    android:textSize="15sp"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="16dp" />
 
-            <Button
-                android:id="@+id/btnManageWhitelist"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="✅  Whitelist (Study Apps Only)"
-                android:textColor="#EEF2F7"
-                android:textSize="14sp"
-                android:backgroundTint="@android:color/transparent"
-                android:stateListAnimator="@null"
-                android:gravity="start|center_vertical"
-                android:paddingStart="20dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ss_border"
+                    android:layout_marginStart="16dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#1E2D3D"
-                android:layout_marginStart="20dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnManageWhitelist"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="✅  Whitelist Settings"
+                    android:textColor="@color/ss_foreground"
+                    android:textSize="15sp"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="16dp" />
 
-            <Button
-                android:id="@+id/btnAddWebsite"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="🌐  Block a Website"
-                android:textColor="#EEF2F7"
-                android:textSize="14sp"
-                android:backgroundTint="@android:color/transparent"
-                android:stateListAnimator="@null"
-                android:gravity="start|center_vertical"
-                android:paddingStart="20dp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ss_border"
+                    android:layout_marginStart="16dp" />
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#1E2D3D"
-                android:layout_marginStart="20dp" />
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddWebsite"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="🌐  Block a Website"
+                    android:textColor="@color/ss_foreground"
+                    android:textSize="15sp"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="16dp" />
 
-            <Button
-                android:id="@+id/btnAddKeyword"
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:text="🔑  Block a Keyword"
-                android:textColor="#EEF2F7"
-                android:textSize="14sp"
-                android:backgroundTint="@android:color/transparent"
-                android:stateListAnimator="@null"
-                android:gravity="start|center_vertical"
-                android:paddingStart="20dp" />
-        </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/ss_border"
+                    android:layout_marginStart="16dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddKeyword"
+                    style="@style/Widget.Material3.Button.TextButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:text="🔑  Block a Keyword"
+                    android:textColor="@color/ss_foreground"
+                    android:textSize="15sp"
+                    android:gravity="start|center_vertical"
+                    android:paddingStart="16dp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
 
         <!-- ══ REPORTS & STATS ════════════════════════════════════════════ -->
         <LinearLayout
@@ -360,41 +394,44 @@
             android:orientation="horizontal"
             android:layout_marginBottom="12dp">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnViewStats"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="56dp"
                 android:layout_weight="1"
                 android:text="📊  Insights"
-                android:textColor="#0B0F1A"
+                android:textColor="@color/ss_background"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:backgroundTint="#11C27A"
-                android:stateListAnimator="@null"
-                android:layout_marginEnd="8dp" />
+                app:backgroundTint="@color/ss_primary"
+                app:cornerRadius="12dp"
+                android:layout_marginEnd="6dp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSendReport"
                 android:layout_width="0dp"
-                android:layout_height="52dp"
+                android:layout_height="56dp"
                 android:layout_weight="1"
-                android:text="📧  Weekly Report"
-                android:textColor="#EEF2F7"
+                android:text="📧  Report"
+                android:textColor="@color/ss_foreground"
                 android:textSize="14sp"
-                android:backgroundTint="#1A2233"
-                android:stateListAnimator="@null"
-                android:layout_marginStart="8dp" />
+                app:backgroundTint="@color/ss_card"
+                app:strokeColor="@color/ss_border"
+                app:strokeWidth="1dp"
+                app:cornerRadius="12dp"
+                android:layout_marginStart="6dp" />
         </LinearLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnProtectUninstall"
+            style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="match_parent"
-            android:layout_height="52dp"
+            android:layout_height="56dp"
             android:text="🛡️  Protect Against Uninstall"
-            android:textColor="#EEF2F7"
+            android:textColor="@color/ss_foreground"
             android:textSize="14sp"
-            android:backgroundTint="#16202E"
-            android:stateListAnimator="@null" />
+            app:strokeColor="@color/ss_border"
+            app:cornerRadius="12dp" />
 
     </LinearLayout>
 </ScrollView>

@@ -10,6 +10,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.appcompat.widget.SwitchCompat
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.*
@@ -48,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         seedDefaultsIfNeeded()
         WeeklyReportWorker.scheduleAll(this)  // daily + Sunday + last day of month
 
-        findViewById<Button>(R.id.btnEnableService).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnEnableService).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
 
@@ -58,10 +61,10 @@ class MainActivity : AppCompatActivity() {
         val initials = userName.trim().split(" ")
             .mapNotNull { it.firstOrNull()?.uppercaseChar() }.take(2).joinToString("").ifEmpty { "U" }
         findViewById<TextView>(R.id.tvInitials).text = initials
-        findViewById<FrameLayout>(R.id.btnProfileAvatar).setOnClickListener { showProfileDialog() }
+        findViewById<MaterialCardView>(R.id.btnProfileAvatar).setOnClickListener { showProfileDialog() }
 
         // Strict Mode toggle
-        val strictSwitch = findViewById<Switch>(R.id.switchStrictMode)
+        val strictSwitch = findViewById<SwitchCompat>(R.id.switchStrictMode)
         strictSwitch.isChecked = prefs.getBoolean("is_strict_mode", false)
         strictSwitch.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("is_strict_mode", isChecked).apply()
@@ -69,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         // Mental Friction toggle
-        val frictionSwitch = findViewById<Switch>(R.id.switchMentalFriction)
+        val frictionSwitch = findViewById<SwitchCompat>(R.id.switchMentalFriction)
         frictionSwitch.isChecked = prefs.getBoolean("is_mental_friction", true)
         frictionSwitch.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("is_mental_friction", isChecked).apply()
@@ -78,29 +81,28 @@ class MainActivity : AppCompatActivity() {
 
         populateBlockedAppsRow()
         refreshStrictLock()
-        // Check for Updates — fetches version.json, downloads & installs if newer
-        findViewById<Button>(R.id.btnCheckUpdate).setOnClickListener {
-            UpdateManager.checkAndUpdate(this)
+        findViewById<MaterialButton>(R.id.btnCheckUpdate).setOnClickListener {
+            UpdateManager(this).checkForUpdates()
         }
 
-        findViewById<Button>(R.id.btnManageWhitelist).setOnClickListener { showAppPicker(isWhitelist = true) }
-        findViewById<Button>(R.id.btnAddWebsite).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnManageWhitelist).setOnClickListener { showAppPicker(isWhitelist = true) }
+        findViewById<MaterialButton>(R.id.btnAddWebsite).setOnClickListener {
             showAddDialog("Block a Website", "e.g. instagram.com", KEY_WEBSITES)
         }
-        findViewById<Button>(R.id.btnAddKeyword).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnAddKeyword).setOnClickListener {
             showAddDialog("Block a Keyword", "e.g. reels", KEY_KEYWORDS)
         }
         // Manual send button — builds & sends the HTML report immediately
-        findViewById<Button>(R.id.btnSendReport).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnSendReport).setOnClickListener {
             sendReportNow()
         }
         // Stats screen
-        findViewById<Button>(R.id.btnViewStats).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnViewStats).setOnClickListener {
             startActivity(Intent(this, StatsActivity::class.java))
         }
 
         // Anti-Uninstall Protection
-        findViewById<Button>(R.id.btnProtectUninstall).setOnClickListener {
+        findViewById<MaterialButton>(R.id.btnProtectUninstall).setOnClickListener {
             activateDeviceAdmin()
         }
         
@@ -176,14 +178,14 @@ class MainActivity : AppCompatActivity() {
         val alpha = if (isStrict) 0.5f else 1.0f
         val enabled = !isStrict
 
-        findViewById<Button>(R.id.btnAddApp).isEnabled = enabled
-        findViewById<Button>(R.id.btnAddApp).alpha = alpha
-        findViewById<Button>(R.id.btnManageWhitelist).isEnabled = enabled
-        findViewById<Button>(R.id.btnManageWhitelist).alpha = alpha
-        findViewById<Button>(R.id.btnAddWebsite).isEnabled = enabled
-        findViewById<Button>(R.id.btnAddWebsite).alpha = alpha
-        findViewById<Button>(R.id.btnAddKeyword).isEnabled = enabled
-        findViewById<Button>(R.id.btnAddKeyword).alpha = alpha
+        findViewById<MaterialButton>(R.id.btnAddApp).isEnabled = enabled
+        findViewById<MaterialButton>(R.id.btnAddApp).alpha = alpha
+        findViewById<MaterialButton>(R.id.btnManageWhitelist).isEnabled = enabled
+        findViewById<MaterialButton>(R.id.btnManageWhitelist).alpha = alpha
+        findViewById<MaterialButton>(R.id.btnAddWebsite).isEnabled = enabled
+        findViewById<MaterialButton>(R.id.btnAddWebsite).alpha = alpha
+        findViewById<MaterialButton>(R.id.btnAddKeyword).isEnabled = enabled
+        findViewById<MaterialButton>(R.id.btnAddKeyword).alpha = alpha
         
         if (isStrict) {
             Toast.makeText(this, "🔒 Strict Mode Active: Edits Locked", Toast.LENGTH_SHORT).show()
