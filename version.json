@@ -1,6 +1,7 @@
 {
-  "versionCode": 8,
+  "versionCode": 9,
   "versionName": "2.3",
   "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/raw/main/StudySanctum_v2.3.apk",
   "releaseNotes": "OTA Update System enabled! Added security hardening and performance optimizations."
+
 }
