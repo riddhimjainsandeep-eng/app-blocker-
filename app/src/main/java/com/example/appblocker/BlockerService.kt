@@ -1,3 +1,4 @@
+// Testing Gemini Style Guide Audit.
 package com.example.appblocker
 
 import android.accessibilityservice.AccessibilityService
