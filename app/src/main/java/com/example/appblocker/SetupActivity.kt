@@ -15,11 +15,15 @@ import androidx.appcompat.app.AppCompatActivity
 class SetupActivity : AppCompatActivity() {
 
     companion object {
-        const val PREFS_SETUP   = "SetupPrefs"
+        const val PREFS_SETUP    = "SetupPrefs"
+        const val KEY_USER_NAME  = "user_name"
+        const val KEY_USER_AGE   = "user_age"
         const val KEY_USER_EMAIL = "user_email"
         const val KEY_SETUP_DONE = "setup_done"
     }
 
+    private var pendingName  = ""
+    private var pendingAge   = ""
     private var pendingEmail = ""
     private var sentCode     = ""
 
@@ -35,7 +39,7 @@ class SetupActivity : AppCompatActivity() {
         showEmailEntry()
     }
 
-    // ── Step 1: Ask for email ────────────────────────────────────────────────
+    // ── Step 1: Ask for name, age, email ────────────────────────────────────
     private fun showEmailEntry() {
         val layout = buildLayout()
 
@@ -48,34 +52,39 @@ class SetupActivity : AppCompatActivity() {
             setPadding(0, 0, 0, 8)
         }
         val subtitle = TextView(this).apply {
-            text = "Your focus reports will be sent to your email."
+            text = "Create your focus profile to get started."
             textSize = 13f
             setTextColor(0xFF8888AA.toInt())
             gravity = android.view.Gravity.CENTER
             setPadding(0, 0, 0, 32)
         }
-        val emailInput = EditText(this).apply {
-            hint = "Enter your email address"
-            inputType = InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_CLASS_TEXT
-            setHintTextColor(0xFF555577.toInt())
-            setTextColor(0xFFFFFFFF.toInt())
-            setBackgroundColor(0xFF1A1A2E.toInt())
-            setPadding(24, 20, 24, 20)
-            textSize = 15f
-        }
+
+        val nameInput = setupInput("Enter your name", InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_CAP_WORDS)
+        val ageInput = setupInput("Enter your age", InputType.TYPE_CLASS_NUMBER)
+        val emailInput = setupInput("Enter your email address", InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS or InputType.TYPE_CLASS_TEXT)
+
         val sendBtn = Button(this).apply {
-            text = "Send Verification Code"
+            text = "Verify Email & Start"
             textSize = 15f
             setTextColor(0xFF0D0D1A.toInt())
             backgroundTintList = android.content.res.ColorStateList.valueOf(0xFFC8A2F8.toInt())
             stateListAnimator = null
-            setPadding(0, 0, 0, 0)
             setOnClickListener {
+                val name = nameInput.text.toString().trim()
+                val age = ageInput.text.toString().trim()
                 val email = emailInput.text.toString().trim()
-                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    Toast.makeText(this@SetupActivity, "Please enter a valid email.", Toast.LENGTH_SHORT).show()
+
+                if (name.isEmpty() || age.isEmpty() || email.isEmpty()) {
+                    Toast.makeText(this@SetupActivity, "Please fill all fields.", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+                if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    Toast.makeText(this@SetupActivity, "Invalid email address.", Toast.LENGTH_SHORT).show()
+                    return@setOnClickListener
+                }
+
+                pendingName = name
+                pendingAge = age
                 pendingEmail = email
                 sendVerificationCode(email)
             }
@@ -83,10 +92,35 @@ class SetupActivity : AppCompatActivity() {
 
         layout.addView(title)
         layout.addView(subtitle)
+        layout.addView(textViewLabel("NAME"))
+        layout.addView(nameInput)
+        layout.addView(makeSpace(12))
+        layout.addView(textViewLabel("AGE"))
+        layout.addView(ageInput)
+        layout.addView(makeSpace(12))
+        layout.addView(textViewLabel("EMAIL"))
         layout.addView(emailInput)
-        layout.addView(makeSpace(16))
+        layout.addView(makeSpace(24))
         layout.addView(sendBtn)
         setContentView(wrapInScroll(layout))
+    }
+
+    private fun setupInput(hintStr: String, inputTypeInt: Int) = EditText(this).apply {
+        hint = hintStr
+        inputType = inputTypeInt
+        setHintTextColor(0xFF555577.toInt())
+        setTextColor(0xFFFFFFFF.toInt())
+        setBackgroundColor(0xFF1A1A2E.toInt())
+        setPadding(24, 20, 24, 20)
+        textSize = 15f
+    }
+
+    private fun textViewLabel(txt: String) = TextView(this).apply {
+        text = txt
+        textSize = 10f
+        setTextColor(0xFF6666AA.toInt())
+        letterSpacing = 0.2f
+        setPadding(4, 0, 0, 4)
     }
 
     // ── Step 2: Send code and show verification screen ───────────────────────
@@ -180,14 +214,69 @@ class SetupActivity : AppCompatActivity() {
         setContentView(wrapInScroll(layout))
     }
 
-    // ── Save verified email → go to MainActivity ──────────────────────────────
+    // ── Save verified profile → show Accessibility Guide ─────────────────────
     private fun saveEmailAndProceed() {
         getSharedPreferences(PREFS_SETUP, Context.MODE_PRIVATE).edit()
+            .putString(KEY_USER_NAME, pendingName)
+            .putString(KEY_USER_AGE, pendingAge)
             .putString(KEY_USER_EMAIL, pendingEmail)
-            .putBoolean(KEY_SETUP_DONE, true)
-            .apply()
-        Toast.makeText(this, "✅ Verified! Welcome to Study Sanctum.", Toast.LENGTH_LONG).show()
-        launchMain()
+            .apply() 
+        showAccessibilityGuide()
+    }
+
+    private fun showAccessibilityGuide() {
+        val layout = buildLayout()
+
+        val title = TextView(this).apply {
+            text = "🛡️ Final Step: Enable Focus Guard"
+            textSize = 24f
+            setTextColor(0xFFC8A2F8.toInt())
+            typeface = android.graphics.Typeface.DEFAULT_BOLD
+            gravity = android.view.Gravity.CENTER
+            setPadding(0, 0, 0, 16)
+        }
+
+        val description = TextView(this).apply {
+            text = "To block distracting apps and websites, Study Sanctum needs 'Accessibility' permission.\n\n" +
+                   "1. Click the button below\n" +
+                   "2. Find 'Study Sanctum' in the list\n" +
+                   "3. Toggle 'Use Study Sanctum' to ON"
+            textSize = 14f
+            setTextColor(0xFFCCCCDD.toInt())
+            setLineSpacing(8f, 1f)
+            setPadding(0, 0, 0, 32)
+        }
+
+        val grantBtn = Button(this).apply {
+            text = "Grant Permission"
+            textSize = 15f
+            setTextColor(0xFF0D0D1A.toInt())
+            backgroundTintList = android.content.res.ColorStateList.valueOf(0xFFC8A2F8.toInt())
+            stateListAnimator = null
+            setOnClickListener {
+                startActivity(Intent(android.provider.Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            }
+        }
+
+        val continueBtn = Button(this).apply {
+            text = "I've Enabled It, Let's Go!"
+            textSize = 15f
+            setTextColor(0xFFCCCCDD.toInt())
+            background = null
+            setPadding(0, 24, 0, 0)
+            setOnClickListener {
+                getSharedPreferences(PREFS_SETUP, Context.MODE_PRIVATE).edit()
+                    .putBoolean(KEY_SETUP_DONE, true)
+                    .apply()
+                launchMain()
+            }
+        }
+
+        layout.addView(title)
+        layout.addView(description)
+        layout.addView(grantBtn)
+        layout.addView(continueBtn)
+        setContentView(wrapInScroll(layout))
     }
 
     private fun launchMain() {
@@ -204,15 +293,18 @@ class SetupActivity : AppCompatActivity() {
     }
 
     private fun wrapInScroll(inner: LinearLayout): android.widget.ScrollView {
-        return android.widget.ScrollView(this).apply {
+        val scroll = android.widget.ScrollView(this).apply {
             setBackgroundColor(0xFF0D0D1A.toInt())
-            addView(inner)
-            // Center vertically
-            inner.layoutParams = android.widget.FrameLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.MATCH_PARENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT
-            ).apply { topMargin = 120 }
+            isFillViewport = true
         }
+        
+        val lp = android.widget.FrameLayout.LayoutParams(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        ).apply { topMargin = 120 }
+        
+        scroll.addView(inner, lp)
+        return scroll
     }
 
     private fun makeSpace(dp: Int) = android.view.View(this).apply {

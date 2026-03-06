@@ -1,13 +1,25 @@
 -- Merging decision tree log ---
+provider#androidx.core.content.FileProvider
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:79:9-87:20
+	android:grantUriPermissions
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:83:13-47
+	android:authorities
+		INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:81:13-64
+	android:exported
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:82:13-37
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:80:13-62
 manifest
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-71:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-71:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-71:12
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-71:12
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-91:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-91:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-91:12
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:1-91:12
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-4\ac02b4820c459a6ba97ebca5b726e65e\transformed\material-1.11.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.appcompat:appcompat-resources:1.6.1] C:\Users\riddh\.gradle\caches\transforms-4\f14c56c5154bffd1a7bd9c61d53931ac\transformed\appcompat-resources-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-4\ce7f732c23b0b64f1a267a079e0f2d7c\transformed\constraintlayout-2.0.1\AndroidManifest.xml:2:1-11:12
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\riddh\.gradle\caches\transforms-4\08b15889dfcb3e8cc1ed3f4834f8d378\transformed\appcompat-1.6.1\AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.ai.client.generativeai:generativeai:0.9.0] C:\Users\riddh\.gradle\caches\transforms-4\b3d69ea381a34982e5361303458dca9c\transformed\generativeai-0.9.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\riddh\.gradle\caches\transforms-4\8d4c8cd48b7f65c3ad1de5a0ae05babf\transformed\emoji2-views-helper-1.2.0\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\riddh\.gradle\caches\transforms-4\3d525723c926d62e5e48321fae041d2c\transformed\emoji2-1.2.0\AndroidManifest.xml:17:1-35:12
 MERGED from [androidx.viewpager2:viewpager2:1.0.0] C:\Users\riddh\.gradle\caches\transforms-4\942499280a7adf143bd7fb387ecca946\transformed\viewpager2-1.0.0\AndroidManifest.xml:17:1-24:12
@@ -27,6 +39,7 @@ MERGED from [androidx.loader:loader:1.0.0] C:\Users\riddh\.gradle\caches\transfo
 MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\riddh\.gradle\caches\transforms-4\a374606d9add265cad25f05a0ee7bbbb\transformed\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\riddh\.gradle\caches\transforms-4\8578fbe7168e1816f805cb8a326f244f\transformed\customview-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\e930468465b54afd81f1282a539aca0b\transformed\core-1.12.0\AndroidManifest.xml:17:1-30:12
+MERGED from [com.google.ai.client.generativeai:common:0.8.0] C:\Users\riddh\.gradle\caches\transforms-4\f5acb46e6a96dc5ad61ae971ed5d0153\transformed\common-0.8.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\riddh\.gradle\caches\transforms-4\7b57778e6631475f9e32dfe4e8a8c068\transformed\savedstate-1.2.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-service:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\f83dd2d5e2ba70c70f8a43b0a487d143\transformed\lifecycle-service-2.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\4c18bac76fc05a3dc541030d6dc243e9\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:17:1-35:12
@@ -36,6 +49,7 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.6.1] C:\Users\riddh\.gradl
 MERGED from [androidx.lifecycle:lifecycle-runtime:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\1170b5b9d1d32465b52d4dbd72e7ace1\transformed\lifecycle-runtime-2.6.1\AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\dc5a34901428c9a22d5ca4650b5d8c9c\transformed\lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.core:core-ktx:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\39ff34da2c87fe999f196181bd89918b\transformed\core-ktx-1.12.0\AndroidManifest.xml:2:1-7:12
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.room:room-ktx:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\5a6b2fa6d08084d05d2e3aac704702bc\transformed\room-ktx-2.5.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:17:1-31:12
 MERGED from [androidx.annotation:annotation-experimental:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\7a217d6d132e08f69ca3e98a31f1f4dc\transformed\annotation-experimental-1.3.0\AndroidManifest.xml:17:1-22:12
@@ -44,7 +58,6 @@ MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\riddh\.gradle\
 MERGED from [androidx.cardview:cardview:1.0.0] C:\Users\riddh\.gradle\caches\transforms-4\fca1dd999a1aad59f458b038520edf5d\transformed\cardview-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\riddh\.gradle\caches\transforms-4\f6c57e85f12b4ca509b0142880bbe0d7\transformed\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\92451f4d0e6273ef2c10169ad401ed78\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:17:1-27:12
-MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:17:1-55:12
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\51918544dc2d5b1123ee6487973c0bac\transformed\startup-runtime-1.1.1\AndroidManifest.xml:17:1-33:12
 MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\riddh\.gradle\caches\transforms-4\1a5edb1a6d9a202c3aa6d6bc45c124bd\transformed\tracing-1.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.arch.core:core-runtime:2.2.0] C:\Users\riddh\.gradle\caches\transforms-4\47a3c5534bec447998f4ad414a8c12c0\transformed\core-runtime-2.2.0\AndroidManifest.xml:17:1-22:12
@@ -64,6 +77,10 @@ MERGED from [androidx.sqlite:sqlite:2.3.0] C:\Users\riddh\.gradle\caches\transfo
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:2:11-69
 uses-permission#android.permission.INTERNET
 ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:5:5-67
+MERGED from [com.google.ai.client.generativeai:generativeai:0.9.0] C:\Users\riddh\.gradle\caches\transforms-4\b3d69ea381a34982e5361303458dca9c\transformed\generativeai-0.9.0\AndroidManifest.xml:22:5-67
+MERGED from [com.google.ai.client.generativeai:generativeai:0.9.0] C:\Users\riddh\.gradle\caches\transforms-4\b3d69ea381a34982e5361303458dca9c\transformed\generativeai-0.9.0\AndroidManifest.xml:22:5-67
+MERGED from [com.google.ai.client.generativeai:common:0.8.0] C:\Users\riddh\.gradle\caches\transforms-4\f5acb46e6a96dc5ad61ae971ed5d0153\transformed\common-0.8.0\AndroidManifest.xml:22:5-67
+MERGED from [com.google.ai.client.generativeai:common:0.8.0] C:\Users\riddh\.gradle\caches\transforms-4\f5acb46e6a96dc5ad61ae971ed5d0153\transformed\common-0.8.0\AndroidManifest.xml:22:5-67
 	android:name
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:5:22-64
 uses-permission#android.permission.QUERY_ALL_PACKAGES
@@ -72,9 +89,13 @@ ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:7:5-8:53
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:8:9-50
 	android:name
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:7:22-74
+uses-permission#android.permission.REQUEST_INSTALL_PACKAGES
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-83
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:22-80
 application
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-69:19
-INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:10:5-69:19
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:12:5-89:19
+INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:12:5-89:19
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-4\ac02b4820c459a6ba97ebca5b726e65e\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [com.google.android.material:material:1.11.0] C:\Users\riddh\.gradle\caches\transforms-4\ac02b4820c459a6ba97ebca5b726e65e\transformed\material-1.11.0\AndroidManifest.xml:22:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-4\ce7f732c23b0b64f1a267a079e0f2d7c\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
@@ -87,12 +108,12 @@ MERGED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms
 MERGED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\e930468465b54afd81f1282a539aca0b\transformed\core-1.12.0\AndroidManifest.xml:28:5-89
 MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\4c18bac76fc05a3dc541030d6dc243e9\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:23:5-33:19
 MERGED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\4c18bac76fc05a3dc541030d6dc243e9\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:23:5-33:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:23:5-29:19
 MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:23:5-29:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\92451f4d0e6273ef2c10169ad401ed78\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\92451f4d0e6273ef2c10169ad401ed78\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:24:5-25:19
-MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
-MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:23:5-53:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\51918544dc2d5b1123ee6487973c0bac\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\51918544dc2d5b1123ee6487973c0bac\transformed\startup-runtime-1.1.1\AndroidManifest.xml:25:5-31:19
 	android:extractNativeLibs
@@ -100,99 +121,117 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\cach
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\e930468465b54afd81f1282a539aca0b\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
 	android:label
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:14:9-41
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:16:9-41
 	android:roundIcon
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:13:9-48
-	android:icon
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:12:9-43
-	android:allowBackup
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:11:9-36
-	android:theme
 		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:15:9-48
+	android:icon
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:14:9-43
+	android:allowBackup
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:13:9-36
+	android:theme
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:17:9-48
 activity#com.example.appblocker.SetupActivity
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:17:9-24:20
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:9-26:20
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:19:13-36
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:13-36
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:18:13-42
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:13-42
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:20:13-23:29
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:22:13-25:29
 action#android.intent.action.MAIN
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:17-69
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:23:17-69
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:21:25-66
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:23:25-66
 category#android.intent.category.LAUNCHER
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:22:17-77
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:24:17-77
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:22:27-74
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:24:27-74
 activity#com.example.appblocker.MainActivity
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:26:9-28:40
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:28:9-30:40
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:28:13-37
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:30:13-37
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:27:13-41
-activity#com.example.appblocker.MotivationActivity
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:30:9-33:47
-	android:launchMode
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:33:13-44
-	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:32:13-37
-	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:31:13-47
-activity#com.example.appblocker.StatsActivity
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:35:9-38:52
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:29:13-41
+activity#com.example.appblocker.ChallengeActivity
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:32:9-37:52
 	android:screenOrientation
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:38:13-49
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:37:13-49
+	android:launchMode
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:36:13-44
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:37:13-37
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:34:13-37
+	android:showOnLockScreen
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:35:13-44
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:36:13-42
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:33:13-46
+activity#com.example.appblocker.MotivationActivity
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:39:9-42:47
+	android:launchMode
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:42:13-44
+	android:exported
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:41:13-37
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:40:13-47
+activity#com.example.appblocker.StatsActivity
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:44:9-47:52
+	android:screenOrientation
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:47:13-49
+	android:exported
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:46:13-37
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:45:13-42
 service#com.example.appblocker.BlockerService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:41:9-52:19
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:50:9-61:19
 	android:label
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:43:13-45
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:52:13-45
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:45:13-37
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:54:13-37
 	android:permission
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:44:13-79
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:53:13-79
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:42:13-43
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:51:13-43
 intent-filter#action:name:android.accessibilityservice.AccessibilityService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:46:13-48:29
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:55:13-57:29
 action#android.accessibilityservice.AccessibilityService
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:47:17-92
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:56:17-92
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:47:25-89
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:56:25-89
 meta-data#android.accessibilityservice
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:49:13-51:72
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:58:13-60:72
 	android:resource
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:51:17-69
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:60:17-69
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:50:17-60
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:59:17-60
 receiver#com.example.appblocker.AppBlockerAdminReceiver
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:55:9-67:20
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:64:9-76:20
 	android:label
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:57:13-51
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:66:13-51
 	android:exported
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:60:13-36
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:69:13-36
 	android:permission
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:59:13-70
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:68:13-70
 	android:description
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:58:13-67
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:67:13-67
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:56:13-52
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:65:13-52
 meta-data#android.app.device_admin
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:61:13-63:56
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:70:13-72:56
 	android:resource
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:63:17-53
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:72:17-53
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:62:17-56
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:71:17-56
 intent-filter#action:name:android.app.action.DEVICE_ADMIN_ENABLED
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:64:13-66:29
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:73:13-75:29
 action#android.app.action.DEVICE_ADMIN_ENABLED
-ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:65:17-82
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:74:17-82
 	android:name
-		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:65:25-79
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:74:25-79
+meta-data#android.support.FILE_PROVIDER_PATHS
+ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:84:13-86:63
+	android:resource
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:86:17-60
+	android:name
+		ADDED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml:85:17-67
 uses-sdk
 INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Project\AppBlocker\app\src\main\AndroidManifest.xml
@@ -205,6 +244,8 @@ MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.g
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\riddh\.gradle\caches\transforms-4\ce7f732c23b0b64f1a267a079e0f2d7c\transformed\constraintlayout-2.0.1\AndroidManifest.xml:5:5-7:41
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\riddh\.gradle\caches\transforms-4\08b15889dfcb3e8cc1ed3f4834f8d378\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\riddh\.gradle\caches\transforms-4\08b15889dfcb3e8cc1ed3f4834f8d378\transformed\appcompat-1.6.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.ai.client.generativeai:generativeai:0.9.0] C:\Users\riddh\.gradle\caches\transforms-4\b3d69ea381a34982e5361303458dca9c\transformed\generativeai-0.9.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.ai.client.generativeai:generativeai:0.9.0] C:\Users\riddh\.gradle\caches\transforms-4\b3d69ea381a34982e5361303458dca9c\transformed\generativeai-0.9.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\riddh\.gradle\caches\transforms-4\8d4c8cd48b7f65c3ad1de5a0ae05babf\transformed\emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2-views-helper:1.2.0] C:\Users\riddh\.gradle\caches\transforms-4\8d4c8cd48b7f65c3ad1de5a0ae05babf\transformed\emoji2-views-helper-1.2.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.emoji2:emoji2:1.2.0] C:\Users\riddh\.gradle\caches\transforms-4\3d525723c926d62e5e48321fae041d2c\transformed\emoji2-1.2.0\AndroidManifest.xml:21:5-44
@@ -243,6 +284,8 @@ MERGED from [androidx.customview:customview:1.1.0] C:\Users\riddh\.gradle\caches
 MERGED from [androidx.customview:customview:1.1.0] C:\Users\riddh\.gradle\caches\transforms-4\8578fbe7168e1816f805cb8a326f244f\transformed\customview-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\e930468465b54afd81f1282a539aca0b\transformed\core-1.12.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\e930468465b54afd81f1282a539aca0b\transformed\core-1.12.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.ai.client.generativeai:common:0.8.0] C:\Users\riddh\.gradle\caches\transforms-4\f5acb46e6a96dc5ad61ae971ed5d0153\transformed\common-0.8.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.ai.client.generativeai:common:0.8.0] C:\Users\riddh\.gradle\caches\transforms-4\f5acb46e6a96dc5ad61ae971ed5d0153\transformed\common-0.8.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\riddh\.gradle\caches\transforms-4\7b57778e6631475f9e32dfe4e8a8c068\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.savedstate:savedstate:1.2.1] C:\Users\riddh\.gradle\caches\transforms-4\7b57778e6631475f9e32dfe4e8a8c068\transformed\savedstate-1.2.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.lifecycle:lifecycle-service:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\f83dd2d5e2ba70c70f8a43b0a487d143\transformed\lifecycle-service-2.6.1\AndroidManifest.xml:20:5-44
@@ -261,6 +304,8 @@ MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\r
 MERGED from [androidx.lifecycle:lifecycle-viewmodel-savedstate:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\dc5a34901428c9a22d5ca4650b5d8c9c\transformed\lifecycle-viewmodel-savedstate-2.6.1\AndroidManifest.xml:20:5-44
 MERGED from [androidx.core:core-ktx:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\39ff34da2c87fe999f196181bd89918b\transformed\core-ktx-1.12.0\AndroidManifest.xml:5:5-44
 MERGED from [androidx.core:core-ktx:1.12.0] C:\Users\riddh\.gradle\caches\transforms-4\39ff34da2c87fe999f196181bd89918b\transformed\core-ktx-1.12.0\AndroidManifest.xml:5:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
+MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
 MERGED from [androidx.room:room-ktx:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\5a6b2fa6d08084d05d2e3aac704702bc\transformed\room-ktx-2.5.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.room:room-ktx:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\5a6b2fa6d08084d05d2e3aac704702bc\transformed\room-ktx-2.5.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:21:5-44
@@ -277,8 +322,6 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\riddh\.gradle\ca
 MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\riddh\.gradle\caches\transforms-4\f6c57e85f12b4ca509b0142880bbe0d7\transformed\interpolator-1.0.0\AndroidManifest.xml:20:5-44
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\92451f4d0e6273ef2c10169ad401ed78\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\92451f4d0e6273ef2c10169ad401ed78\transformed\versionedparcelable-1.1.1\AndroidManifest.xml:20:5-22:41
-MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
-MERGED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:21:5-44
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\51918544dc2d5b1123ee6487973c0bac\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.startup:startup-runtime:1.1.1] C:\Users\riddh\.gradle\caches\transforms-4\51918544dc2d5b1123ee6487973c0bac\transformed\startup-runtime-1.1.1\AndroidManifest.xml:21:5-23:41
 MERGED from [androidx.tracing:tracing:1.0.0] C:\Users\riddh\.gradle\caches\transforms-4\1a5edb1a6d9a202c3aa6d6bc45c124bd\transformed\tracing-1.0.0\AndroidManifest.xml:20:5-22:41
@@ -571,16 +614,6 @@ ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\riddh\.gradle\c
 		ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\4c18bac76fc05a3dc541030d6dc243e9\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:31:17-49
 	android:name
 		ADDED from [androidx.lifecycle:lifecycle-process:2.6.1] C:\Users\riddh\.gradle\caches\transforms-4\4c18bac76fc05a3dc541030d6dc243e9\transformed\lifecycle-process-2.6.1\AndroidManifest.xml:30:17-78
-service#androidx.room.MultiInstanceInvalidationService
-ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:24:9-28:63
-	android:exported
-		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:27:13-37
-	tools:ignore
-		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:28:13-60
-	android:directBootAware
-		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:26:13-43
-	android:name
-		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:25:13-74
 meta-data#androidx.profileinstaller.ProfileInstallerInitializer
 ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
 	android:value
@@ -623,3 +656,13 @@ action#androidx.profileinstaller.action.BENCHMARK_OPERATION
 ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
 	android:name
 		ADDED from [androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\riddh\.gradle\caches\transforms-4\02ec58cdd65c2551891da702b443cdff\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+service#androidx.room.MultiInstanceInvalidationService
+ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:24:9-28:63
+	android:exported
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:27:13-37
+	tools:ignore
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:28:13-60
+	android:directBootAware
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:26:13-43
+	android:name
+		ADDED from [androidx.room:room-runtime:2.5.0] C:\Users\riddh\.gradle\caches\transforms-4\6295a4519b539818c30f7ebcf9d2ecc2\transformed\room-runtime-2.5.0\AndroidManifest.xml:25:13-74

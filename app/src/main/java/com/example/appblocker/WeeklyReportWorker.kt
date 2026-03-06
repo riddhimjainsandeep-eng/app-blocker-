@@ -208,8 +208,11 @@ class WeeklyReportWorker(context: Context, params: WorkerParameters) : Worker(co
                 else                         -> "$periodBlocks attempts this period. Time to go harder — delete the apps, not just block them."
             }
 
+            val userName = context.getSharedPreferences(SetupActivity.PREFS_SETUP, Context.MODE_PRIVATE)
+                .getString(SetupActivity.KEY_USER_NAME, "Scholar") ?: "Scholar"
+
             val subject = "📊 Study Sanctum $title — $dateStr"
-            val html = buildHtml(title, dateStr, periodLabel, periodBlocks, trendNote,
+            val html = buildHtml(userName, title, dateStr, periodLabel, periodBlocks, trendNote,
                 thisWeek, totalEver, blockedApps.size, blockedSites.size,
                 appRows, peakLabel, coachNote)
 
@@ -217,6 +220,7 @@ class WeeklyReportWorker(context: Context, params: WorkerParameters) : Worker(co
         }
 
         private fun buildHtml(
+            userName: String,
             title: String, dateStr: String, periodLabel: String,
             periodBlocks: Int, trendNote: String,
             thisWeek: Int, totalEver: Int,
@@ -243,6 +247,7 @@ class WeeklyReportWorker(context: Context, params: WorkerParameters) : Worker(co
 <div class="wrap">
   <div class="header">
     <div class="logo">📚 Study Sanctum</div>
+    <div class="sub" style="font-size:18px; color:#FFF; margin:16px 0 8px;">Hi, $userName!</div>
     <div class="sub">$title &nbsp;·&nbsp; $dateStr</div>
   </div>
   <div class="card">

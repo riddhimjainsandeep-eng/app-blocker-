@@ -1,8 +1,0 @@
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\BlockerService.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\MotivationActivity.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\EmailSender.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\WeeklyReportWorker.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\StatsActivity.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\MainActivity.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\SetupActivity.kt
-D:\Project\AppBlocker\app\src\main\java\com\example\appblocker\AppBlockerAdminReceiver.kt

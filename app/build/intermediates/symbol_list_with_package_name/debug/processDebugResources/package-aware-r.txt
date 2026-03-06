@@ -2000,6 +2000,20 @@ color secondary_text_default_material_dark
 color secondary_text_default_material_light
 color secondary_text_disabled_material_dark
 color secondary_text_disabled_material_light
+color ss_background
+color ss_border
+color ss_card
+color ss_card_elevated
+color ss_coral
+color ss_coral_dim
+color ss_foreground
+color ss_info
+color ss_info_dim
+color ss_muted
+color ss_muted_fg
+color ss_neutral
+color ss_primary
+color ss_primary_dim
 color switch_thumb_disabled_material_dark
 color switch_thumb_disabled_material_light
 color switch_thumb_material_dark
@@ -2894,11 +2908,13 @@ drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
 drawable card_background
+drawable circle_avatar_bg
 drawable design_fab_background
 drawable design_ic_visibility
 drawable design_ic_visibility_off
 drawable design_password_eye
 drawable design_snackbar_background
+drawable glass_card
 drawable ic_arrow_back_black_24
 drawable ic_call_answer
 drawable ic_call_answer_low
@@ -2917,6 +2933,10 @@ drawable ic_mtrl_chip_checked_black
 drawable ic_mtrl_chip_checked_circle
 drawable ic_mtrl_chip_close_circle
 drawable ic_search_black_24
+drawable icon_bg_coral
+drawable icon_bg_info
+drawable icon_bg_muted
+drawable key_bg
 drawable m3_avd_hide_password
 drawable m3_avd_show_password
 drawable m3_bottom_sheet_drag_handle
@@ -3077,6 +3097,7 @@ id barrier
 id baseline
 id beginOnFirstDraw
 id beginning
+id blockedAppsRow
 id blocking
 id bottom
 id bounce
@@ -3084,8 +3105,10 @@ id btnAddApp
 id btnAddKeyword
 id btnAddWebsite
 id btnBackToStudy
+id btnCheckUpdate
 id btnEnableService
 id btnManageWhitelist
+id btnProfileAvatar
 id btnProtectUninstall
 id btnSendReport
 id btnViewStats
@@ -3183,6 +3206,8 @@ id graph
 id graph_wrap
 id group_divider
 id groups
+id headerLeft
+id headerShield
 id header_title
 id hide_ime_id
 id hideable
@@ -3190,6 +3215,8 @@ id home
 id homeAsUp
 id honorRequest
 id icon
+id iconMentalFriction
+id iconStrictMode
 id icon_group
 id ifRoom
 id ignore
@@ -3388,6 +3415,8 @@ id stop
 id stretch
 id submenuarrow
 id submit_area
+id switchMentalFriction
+id switchStrictMode
 id tabMode
 id tag_accessibility_actions
 id tag_accessibility_clickable_spans
@@ -3435,6 +3464,7 @@ id transition_scene_layoutid_cache
 id transition_transform
 id triangle
 id tvAppName
+id tvInitials
 id tvPackageName
 id unchecked
 id uniform
@@ -5086,3 +5116,4 @@ styleable ViewPager2 android_orientation
 styleable ViewStubCompat android_id android_layout android_inflatedId
 xml accessibility_service_config
 xml device_admin
+xml file_provider_paths

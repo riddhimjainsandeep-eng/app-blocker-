@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.appblocker"
-    android:versionCode="2"
-    android:versionName="1.1" >
+    android:versionCode="7"
+    android:versionName="2.2" >
 
     <uses-sdk
         android:minSdkVersion="24"
@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <!-- Required on Android 11+ to list all installed apps in the App Picker -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
+    <!-- Required to install downloaded APK updates -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
@@ -43,6 +45,12 @@
         <activity
             android:name="com.example.appblocker.MainActivity"
             android:exported="false" />
+        <activity
+            android:name="com.example.appblocker.ChallengeActivity"
+            android:exported="false"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true" />
         <activity
             android:name="com.example.appblocker.MotivationActivity"
             android:exported="false"
@@ -82,6 +90,16 @@
             </intent-filter>
         </receiver>
 
+        <!-- FileProvider for sharing downloaded APK files to the system installer -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.appblocker.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true" >
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="com.example.appblocker.androidx-startup"
@@ -191,12 +209,6 @@
                 <action android:name="androidx.work.diagnostics.REQUEST_DIAGNOSTICS" />
             </intent-filter>
         </receiver>
-
-        <service
-            android:name="androidx.room.MultiInstanceInvalidationService"
-            android:directBootAware="true"
-            android:exported="false" />
-
         <receiver
             android:name="androidx.profileinstaller.ProfileInstallReceiver"
             android:directBootAware="false"
@@ -216,6 +228,11 @@
                 <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name="androidx.room.MultiInstanceInvalidationService"
+            android:directBootAware="true"
+            android:exported="false" />
     </application>
 
 </manifest>

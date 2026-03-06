@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <!-- For downloaded APKs on Android 10+ -->
+    <external-files-path name="downloads" path="." />
+    <!-- For older Android versions -->
+    <external-path name="external_files" path="." />
+</paths>

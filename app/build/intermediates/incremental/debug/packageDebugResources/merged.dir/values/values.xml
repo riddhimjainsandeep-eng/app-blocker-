@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="ss_background">#0B0F1A</color>
+    <color name="ss_border">#1E2D3D</color>
+    <color name="ss_card">#1A2233</color>
+    <color name="ss_card_elevated">#1E2A3A</color>
+    <color name="ss_coral">#FC7171</color>
+    <color name="ss_coral_dim">#2D1010</color>
+    <color name="ss_foreground">#EEF2F7</color>
+    <color name="ss_info">#3B82F6</color>
+    <color name="ss_info_dim">#0D1A35</color>
+    <color name="ss_muted">#16202E</color>
+    <color name="ss_muted_fg">#5D7A99</color>
+    <color name="ss_neutral">#3A4A5E</color>
+    <color name="ss_primary">#11C27A</color>
+    <color name="ss_primary_dim">#0F2A1E</color>
     <string name="app_name">Focus Guard</string>
     <string name="device_admin_description">Enabling this prevents accidental or impulsive uninstallation of Focus Guard. To uninstall, you must deactivate this first.</string>
     <style name="BlockerButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">

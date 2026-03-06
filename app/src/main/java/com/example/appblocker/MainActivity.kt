@@ -51,7 +51,38 @@ class MainActivity : AppCompatActivity() {
         findViewById<Button>(R.id.btnEnableService).setOnClickListener {
             startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
         }
-        findViewById<Button>(R.id.btnAddApp).setOnClickListener { showAppPicker(isWhitelist = false) }
+
+        // Profile avatar initials
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val userName = prefs.getString(SetupActivity.KEY_USER_NAME, "U") ?: "U"
+        val initials = userName.trim().split(" ")
+            .mapNotNull { it.firstOrNull()?.uppercaseChar() }.take(2).joinToString("").ifEmpty { "U" }
+        findViewById<TextView>(R.id.tvInitials).text = initials
+        findViewById<FrameLayout>(R.id.btnProfileAvatar).setOnClickListener { showProfileDialog() }
+
+        // Strict Mode toggle
+        val strictSwitch = findViewById<Switch>(R.id.switchStrictMode)
+        strictSwitch.isChecked = prefs.getBoolean("is_strict_mode", false)
+        strictSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("is_strict_mode", isChecked).apply()
+            Toast.makeText(this, if (isChecked) "🔒 Strict Mode ON" else "Strict Mode OFF", Toast.LENGTH_SHORT).show()
+        }
+
+        // Mental Friction toggle
+        val frictionSwitch = findViewById<Switch>(R.id.switchMentalFriction)
+        frictionSwitch.isChecked = prefs.getBoolean("is_mental_friction", true)
+        frictionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("is_mental_friction", isChecked).apply()
+            Toast.makeText(this, if (isChecked) "🧠 Math challenge ON" else "Math challenge OFF", Toast.LENGTH_SHORT).show()
+        }
+
+        populateBlockedAppsRow()
+        refreshStrictLock()
+        // Check for Updates — fetches version.json, downloads & installs if newer
+        findViewById<Button>(R.id.btnCheckUpdate).setOnClickListener {
+            UpdateManager.checkAndUpdate(this)
+        }
+
         findViewById<Button>(R.id.btnManageWhitelist).setOnClickListener { showAppPicker(isWhitelist = true) }
         findViewById<Button>(R.id.btnAddWebsite).setOnClickListener {
             showAddDialog("Block a Website", "e.g. instagram.com", KEY_WEBSITES)
@@ -71,6 +102,91 @@ class MainActivity : AppCompatActivity() {
         // Anti-Uninstall Protection
         findViewById<Button>(R.id.btnProtectUninstall).setOnClickListener {
             activateDeviceAdmin()
+        }
+        
+        refreshStrictLock()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        refreshStrictLock()
+        populateBlockedAppsRow()
+    }
+
+    private fun populateBlockedAppsRow() {
+        val row = findViewById<LinearLayout>(R.id.blockedAppsRow) ?: return
+        row.removeAllViews()
+        val blockedApps = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getStringSet(KEY_APPS, emptySet()) ?: emptySet()
+        val dp = resources.displayMetrics.density
+
+        blockedApps.take(8).forEach { pkg ->
+            val appName = try {
+                packageManager.getApplicationLabel(packageManager.getApplicationInfo(pkg, 0)).toString()
+            } catch (e: Exception) { pkg.substringAfterLast('.') }
+
+            val item = LinearLayout(this).apply {
+                orientation = LinearLayout.VERTICAL
+                gravity = android.view.Gravity.CENTER_HORIZONTAL
+                setPadding((8*dp).toInt(), 0, (8*dp).toInt(), 0)
+            }
+            val iconBox = TextView(this).apply {
+                text = "📱"; textSize = 26f; gravity = android.view.Gravity.CENTER
+                alpha = 0.45f
+                layoutParams = LinearLayout.LayoutParams((54*dp).toInt(), (54*dp).toInt())
+                background = android.graphics.drawable.GradientDrawable().apply {
+                    setColor(0xFF16202E.toInt()); cornerRadius = 16*dp
+                }
+            }
+            val lbl = TextView(this).apply {
+                text = appName.take(7); textSize = 9f; setTextColor(0xFF5D7A99.toInt())
+                gravity = android.view.Gravity.CENTER
+                layoutParams = LinearLayout.LayoutParams(-2, -2).also { it.topMargin = (4*dp).toInt() }
+            }
+            item.addView(iconBox); item.addView(lbl)
+            row.addView(item)
+        }
+        if (blockedApps.isEmpty()) {
+            row.addView(TextView(this).apply {
+                text = "No apps blocked yet — tap Manage Blocked Apps ↓"
+                textSize = 11f; setTextColor(0xFF5D7A99.toInt())
+            })
+        }
+    }
+    private fun showProfileDialog() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val name  = prefs.getString(SetupActivity.KEY_USER_NAME, "Student") ?: "Student"
+        val email = prefs.getString(SetupActivity.KEY_USER_EMAIL, "") ?: ""
+        val msg   = buildString {
+            append("👤 $name")
+            if (email.isNotEmpty()) append("\n📧 $email")
+            append("\n\nWeekly reports are sent every Sunday.")
+        }
+        androidx.appcompat.app.AlertDialog.Builder(this)
+            .setTitle("Your Profile")
+            .setMessage(msg)
+            .setPositiveButton("Close", null)
+            .show()
+    }
+
+    private fun refreshStrictLock() {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val isStrict = prefs.getBoolean("is_whitelist_mode", false)
+        
+        val alpha = if (isStrict) 0.5f else 1.0f
+        val enabled = !isStrict
+
+        findViewById<Button>(R.id.btnAddApp).isEnabled = enabled
+        findViewById<Button>(R.id.btnAddApp).alpha = alpha
+        findViewById<Button>(R.id.btnManageWhitelist).isEnabled = enabled
+        findViewById<Button>(R.id.btnManageWhitelist).alpha = alpha
+        findViewById<Button>(R.id.btnAddWebsite).isEnabled = enabled
+        findViewById<Button>(R.id.btnAddWebsite).alpha = alpha
+        findViewById<Button>(R.id.btnAddKeyword).isEnabled = enabled
+        findViewById<Button>(R.id.btnAddKeyword).alpha = alpha
+        
+        if (isStrict) {
+            Toast.makeText(this, "🔒 Strict Mode Active: Edits Locked", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -169,9 +285,26 @@ class MainActivity : AppCompatActivity() {
             setBackgroundColor(0xFF12122A.toInt())
             setPadding(24, 16, 24, 16)
         }
+        
+        val layout = LinearLayout(this).apply {
+            orientation = LinearLayout.VERTICAL
+            setPadding(40, 40, 40, 40)
+            addView(input)
+            
+            val btnViewAll = Button(this@MainActivity).apply {
+                text = "📁 View/Edit Current List"
+                setTextColor(0xFF8888AA.toInt())
+                background = null
+                setOnClickListener {
+                    showManageListDialog(title, key)
+                }
+            }
+            addView(btnViewAll)
+        }
+
         AlertDialog.Builder(this, R.style.BlockerDialog)
             .setTitle(title)
-            .setView(input)
+            .setView(layout)
             .setPositiveButton("Block It") { _, _ ->
                 val value = input.text.toString().trim().lowercase()
                 if (value.isNotEmpty()) {
@@ -181,6 +314,48 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton("Cancel", null)
             .show()
+    }
+
+    private fun showManageListDialog(title: String, key: String) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val items = prefs.getStringSet(key, mutableSetOf())?.toMutableList()?.sorted() ?: emptyList()
+        
+        if (items.isEmpty()) {
+            Toast.makeText(this, "List is empty", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val listView = ListView(this)
+        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items)
+        listView.adapter = adapter
+
+        val dialog = AlertDialog.Builder(this, R.style.BlockerDialog)
+            .setTitle("Manage: $title")
+            .setView(listView)
+            .setPositiveButton("Done", null)
+            .create()
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val itemToRemove = items[position]
+            AlertDialog.Builder(this, R.style.BlockerDialog)
+                .setTitle("Remove Item?")
+                .setMessage("Unblock \"$itemToRemove\"?")
+                .setPositiveButton("Remove") { _, _ ->
+                    removeFromPrefs(key, itemToRemove)
+                    dialog.dismiss()
+                    showManageListDialog(title, key) // Refresh
+                }
+                .setNegativeButton("Keep", null)
+                .show()
+        }
+        dialog.show()
+    }
+
+    private fun removeFromPrefs(key: String, value: String) {
+        val prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val current = prefs.getStringSet(key, mutableSetOf())!!.toMutableSet()
+        current.remove(value)
+        prefs.edit().putStringSet(key, current).apply()
     }
 
     // ── SharedPreferences helper ─────────────────────────────────────────────
