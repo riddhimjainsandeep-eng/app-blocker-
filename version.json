@@ -1,6 +1,6 @@
 {
-  "versionCode": 7,
-  "versionName": "2.2",
-  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/releases/download/v2.2/StudySanctum_v2.2_GeminiLite.apk",
-  "releaseNotes": "AI Logic Integration: Gemini 3.1 Flash-Lite powers the Mental Friction challenges."
+  "versionCode": 8,
+  "versionName": "2.3",
+  "apkUrl": "https://github.com/riddhimjainsandeep-eng/app-blocker-/raw/main/StudySanctum_v2.3.apk",
+  "releaseNotes": "OTA Update System enabled! Added security hardening and performance optimizations."
 }
